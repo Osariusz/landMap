@@ -8,3 +8,6 @@ Opening the map shortcut that can be changed in the options
 Optimization
 Changing map quality through configs
 Graphical improvements
+waypoints
+	coordinates and names
+	lore
