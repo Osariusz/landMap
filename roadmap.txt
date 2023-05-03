@@ -10,4 +10,5 @@ Changing map quality through configs
 Graphical improvements
 waypoints
 	coordinates and names
+	in-game visibility
 	lore
