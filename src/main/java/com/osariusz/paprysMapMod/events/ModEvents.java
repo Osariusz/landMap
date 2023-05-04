@@ -18,6 +18,8 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class ModEvents {
 
+    LogicalMap logicalMap = null;
+
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event){
         Player player = event.player;
@@ -33,8 +35,10 @@ public class ModEvents {
         if(!(event.getEntity() instanceof ServerPlayer)){
             return;
         }
+        if(logicalMap == null){
+            logicalMap = new LogicalMap(event.getLevel(),event.getPos(),10000,10000);
+        }
         System.out.println("blockclick");
-        LogicalMap logicalMap = new LogicalMap(event.getLevel(),event.getPos(),10000,10000);
        LogicalMapMessages.sendToPlayer(new LogicalMapS2CPacket(logicalMap),(ServerPlayer) event.getEntity());
        NetworkHooks.openScreen((ServerPlayer) event.getEntity(),new SimpleMenuProvider(
                (containerId, playerInventory, player) -> new MapMenu(containerId,playerInventory),Component.translatable("babel"))

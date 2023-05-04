@@ -111,47 +111,5 @@ public class LogicalMap implements Serializable {
         this.yStep = yStep;
     }
 
-    public ArrayList<LogicalLine> getLines(){
-        ArrayList<LogicalLine> result = new ArrayList<>();
-        int c = 0;
-        for(int x = 0;x<isWater.size();++x){
-            for(int y = 0;y<isWater.get(x).size();++y){
-                System.out.println("Rysuje linie"+c++);
-                if(x == mapSegmentsX/2 && y == mapSegmentsY/2){
-                    result.add(new LogicalLine(x, x, y, -2000));
-                    continue;
-                }
-                Boolean waterTile = isWater.get(x).get(y);
-                if(!waterTile){
-                    ArrayList<Pair<Integer,Integer>> positionsToCheck = new ArrayList<>(List.of(
-                            Pair.of(x-1,y),
-                            Pair.of(x,y+1),
-                            Pair.of(x+1,y),
-                            Pair.of(x,y-1)
-                    ));
-                    boolean waterNeighborFound = false;
-                    /*for(Pair<Integer,Integer> pair : positionsToCheck){
-                        try{
-                            Boolean waterNeighbor = isWater.get(pair.first).get(pair.second);
-                            if(waterNeighbor){
-                                waterNeighborFound = true;
-                                break;
-                            }
-                        } catch (Exception e){
-                            waterNeighborFound = true;
-                        }
-                    }*/
-                    waterNeighborFound = true;
-                    if(waterNeighborFound){
-                        result.add(new LogicalLine(x, x, y, isWater.get(x).get(y).equals(true) ? -2 : -12574688));
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-
-
 
 }
