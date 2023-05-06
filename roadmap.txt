@@ -1,11 +1,12 @@
 Screen rendering (DONE)
 Converting biome info into LogicalMap (DONE)
 Networking (DONE)
-Scaling the map according to monitor resolution
+Optimization 1 (DONE)
+Scaling the map according to monitor resolution (DONE)
 Zooming and panning
 Server test
 Opening the map shortcut that can be changed in the options
-Optimization
+Optimization 2
 Changing map quality through configs
 Graphical improvements
 waypoints
