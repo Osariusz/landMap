@@ -2,7 +2,7 @@ package com.osariusz.paprysMapMod;
 
 import com.mojang.logging.LogUtils;
 import com.osariusz.paprysMapMod.events.ModEvents;
-import com.osariusz.paprysMapMod.guiComponents.MapComponent;
+import com.osariusz.paprysMapMod.guiComponents.MapScreen;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
 import net.minecraft.client.Minecraft;
@@ -80,7 +80,7 @@ public class PapyrusMapMod {
 
     private void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(
-                () -> MenuScreens.register(MAP_MENU.get(),MapComponent::new)
+                () -> MenuScreens.register(MAP_MENU.get(), MapScreen::new)
         );
     }
 

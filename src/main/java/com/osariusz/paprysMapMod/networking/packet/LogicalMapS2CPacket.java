@@ -1,7 +1,7 @@
 package com.osariusz.paprysMapMod.networking.packet;
 
 
-import com.osariusz.paprysMapMod.client.LogicalMapData;
+import com.osariusz.paprysMapMod.client.ClientMapData;
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;;
@@ -19,6 +19,8 @@ public class LogicalMapS2CPacket {
     Vec3i start;
     double xStep, yStep;
 
+    int mapSegmentsX, mapSegmentsY;
+
     public LogicalMapS2CPacket(LogicalMap logicalMap){
         xAmount = logicalMap.getIsWater().size();
         if(xAmount < 1){
@@ -29,6 +31,8 @@ public class LogicalMapS2CPacket {
         this.start = logicalMap.getStart();
         this.xStep = logicalMap.getxStep();
         this.yStep = logicalMap.getyStep();
+        this.mapSegmentsX = logicalMap.getMapSegmentsX();
+        this.mapSegmentsY = logicalMap.getMapSegmentsY();
     }
 
     public LogicalMapS2CPacket(FriendlyByteBuf buf){
@@ -44,6 +48,8 @@ public class LogicalMapS2CPacket {
         start = new Vec3i(buf.readInt(),buf.readInt(),buf.readInt());
         xStep = buf.readDouble();
         yStep = buf.readDouble();
+        mapSegmentsX = buf.readInt();
+        mapSegmentsY = buf.readInt();
     }
 
     public void toBytes(FriendlyByteBuf buf){
@@ -59,12 +65,14 @@ public class LogicalMapS2CPacket {
         buf.writeInt(start.getZ());
         buf.writeDouble(xStep);
         buf.writeDouble(yStep);
+        buf.writeInt(mapSegmentsX);
+        buf.writeInt(mapSegmentsY);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier){
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            LogicalMapData.setLogicalMap(new LogicalMap(isWater,start,xStep,yStep));
+            ClientMapData.setLogicalMap(new LogicalMap(isWater,start,xStep,yStep,mapSegmentsX,mapSegmentsY));
         });
         return true;
     }

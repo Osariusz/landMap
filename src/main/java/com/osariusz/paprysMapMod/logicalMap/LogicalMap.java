@@ -1,7 +1,5 @@
 package com.osariusz.paprysMapMod.logicalMap;
 
-import com.ibm.icu.impl.Pair;
-import com.osariusz.paprysMapMod.client.LogicalMapData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
@@ -9,20 +7,24 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
-import org.jline.utils.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 public class LogicalMap implements Serializable {
 
-    static final int mapSegmentsX = 450;
-    static final int mapSegmentsY = 251;
+    public int getMapSegmentsX() {
+        return mapSegmentsX;
+    }
+
+    public int getMapSegmentsY() {
+        return mapSegmentsY;
+    }
+
+    int mapSegmentsX;
+    int mapSegmentsY;
 
     Vec3i start;
     double xStep;
@@ -38,6 +40,14 @@ public class LogicalMap implements Serializable {
         return xStep;
     }
 
+    public int getWidth() {
+        return mapSegmentsX;
+    }
+
+    public int getHeight() {
+        return mapSegmentsY;
+    }
+
     public double getyStep() {
         return yStep;
     }
@@ -46,8 +56,12 @@ public class LogicalMap implements Serializable {
         return isWater;
     }
 
+    public Boolean isWater(int x, int y) {
+        return isWater.get(x).get(y);
+    }
 
-    public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes){
+
+    public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes) {
         List<ResourceKey<Biome>> waterBiomes = new ArrayList<>(List.of(
                 Biomes.OCEAN,
                 Biomes.DEEP_COLD_OCEAN,
@@ -62,19 +76,18 @@ public class LogicalMap implements Serializable {
                 Biomes.FROZEN_RIVER
         ));
         List<List<Boolean>> isWater = new ArrayList<>();
-        for(int x = 0;x<biomes.size();++x){
+        for (int x = 0; x < biomes.size(); ++x) {
             isWater.add(new ArrayList<>());
-            for(int y = 0;y<biomes.get(x).size();++y){
+            for (int y = 0; y < biomes.get(x).size(); ++y) {
                 boolean waterBiome = false;
-                for(ResourceKey<Biome> biome : waterBiomes){
-                    if(biomes.get(x).get(y).is(biome)){
+                for (ResourceKey<Biome> biome : waterBiomes) {
+                    if (biomes.get(x).get(y).is(biome)) {
                         waterBiome = true;
                     }
                 }
-                if(waterBiome){
+                if (waterBiome) {
                     isWater.get(x).add(true);
-                }
-                else{
+                } else {
                     isWater.get(x).add(false);
                 }
             }
@@ -82,21 +95,23 @@ public class LogicalMap implements Serializable {
         return isWater;
     }
 
-    public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY){
-        if(level != null){
-            xStep = (radiusX*2)/(double)mapSegmentsX;
-            yStep = (radiusY*2)/(double)mapSegmentsY;
+    public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
+        if (level != null) {
+            this.mapSegmentsX = mapSegmentsX;
+            this.mapSegmentsY = mapSegmentsY;
+            xStep = (radiusX * 2) / (double) mapSegmentsX;
+            yStep = (radiusY * 2) / (double) mapSegmentsY;
 
-            start = centre.offset(-radiusX,0,-radiusY);
+            start = centre.offset(-radiusX, 0, -radiusY);
 
             List<List<Holder<Biome>>> biomes = new ArrayList<>();
 
-            for(int x = 0;x<mapSegmentsX;x++){
-                int logicalX = (int)(x*xStep+centre.getX()-radiusX);
+            for (int x = 0; x < mapSegmentsX; x++) {
+                int logicalX = (int) (x * xStep + centre.getX() - radiusX);
                 biomes.add(new ArrayList<>());
-                for(int y = 0;y<mapSegmentsY;y++){
-                    int logicalY = (int) (y*yStep+centre.getZ()-radiusY);
-                    biomes.get(x).add(level.getBiome(new BlockPos(logicalX,level.getSeaLevel(),logicalY)));
+                for (int y = 0; y < mapSegmentsY; y++) {
+                    int logicalY = (int) (y * yStep + centre.getZ() - radiusY);
+                    biomes.get(x).add(level.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
                 }
             }
 
@@ -104,11 +119,13 @@ public class LogicalMap implements Serializable {
         }
     }
 
-    public LogicalMap(@NotNull List<List<Boolean>> isWater, @NotNull Vec3i start, double xStep, double yStep){
+    public LogicalMap(@NotNull List<List<Boolean>> isWater, @NotNull Vec3i start, double xStep, double yStep, int mapSegmentsX, int mapSegmentsY) {
         this.isWater = isWater;
         this.start = start;
         this.xStep = xStep;
         this.yStep = yStep;
+        this.mapSegmentsY = mapSegmentsY;
+        this.mapSegmentsX = mapSegmentsX;
     }
 
 
