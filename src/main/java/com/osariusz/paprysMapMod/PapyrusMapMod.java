@@ -1,19 +1,16 @@
 package com.osariusz.paprysMapMod;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import com.osariusz.paprysMapMod.events.KeyBindingEvent;
 import com.osariusz.paprysMapMod.events.ModEvents;
 import com.osariusz.paprysMapMod.guiComponents.MapScreen;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +22,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file

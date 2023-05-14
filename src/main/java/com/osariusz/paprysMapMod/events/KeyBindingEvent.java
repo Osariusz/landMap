@@ -1,6 +1,4 @@
 package com.osariusz.paprysMapMod.events;
-
-import com.osariusz.paprysMapMod.PapyrusMapMod;
 import com.osariusz.paprysMapMod.keyBindings.KeyBindings;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

@@ -9,11 +9,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.CartographyTableScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.client.event.InputEvent;
 
 
 public class MapScreen extends AbstractContainerScreen<MapMenu> {
@@ -69,24 +67,6 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(),ClientMapData.getInstance().getxOffset(),ClientMapData.getInstance().getyOffset());
         super.render(poseStack, p_96053_, p_96054_, p_96055_);
     }
-
-    /*@Override
-    public boolean mouseClicked(double x, double y, int button){
-        if(KeyBindings.mapPanningBinding.isActiveAndMatches(InputConstants.Type.MOUSE.getOrCreate(button))){
-            panning = true;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean mouseReleased(double x, double y, int button){
-        if(panning && !KeyBindings.mapPanningBinding.isActiveAndMatches(InputConstants.Type.MOUSE.getOrCreate(button))){
-            panning = false;
-            return true;
-        }
-        return false;
-    }*/
 
     @Override
     public boolean mouseDragged(double x, double y, int type, double xDistance, double yDistance){

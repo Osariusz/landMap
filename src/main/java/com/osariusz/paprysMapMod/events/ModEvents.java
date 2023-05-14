@@ -16,17 +16,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ModEvents {
 
-
-    @SubscribeEvent
-    public void onTick(TickEvent.PlayerTickEvent event){
-        Player player = event.player;
-        if(!player.level.isClientSide)
-        {
-            //System.out.println(player.getLevel().getBiome(player.getOnPos()));
-            //System.out.println(player.getLevel().getBiome(player.getOnPos().offset(new Vec3i(10000,0,10000))));
-        }
-   }
-
    @SubscribeEvent
    public void render(TickEvent.RenderTickEvent event){
         //debug measure
@@ -58,8 +47,6 @@ public class ModEvents {
         if(KeyBindings.openMapBinding.consumeClick()){
             System.out.println("inputed");
             LogicalMapMessages.sendToServer(new RequestMapC2SPacket());
-
-            //Minecraft.getInstance().setScreen(new MapScreen(Component.translatable("Minimapa")));
         }
 
    }
