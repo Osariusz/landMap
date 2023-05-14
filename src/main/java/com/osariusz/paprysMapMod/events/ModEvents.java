@@ -1,15 +1,12 @@
 package com.osariusz.paprysMapMod.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.osariusz.paprysMapMod.PapyrusMapMod;
 import com.osariusz.paprysMapMod.client.ClientMapData;
-import com.osariusz.paprysMapMod.guiComponents.MapScreen;
 import com.osariusz.paprysMapMod.guiComponents.MapTexture;
 import com.osariusz.paprysMapMod.keyBindings.KeyBindings;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
 import com.osariusz.paprysMapMod.networking.packet.RequestMapC2SPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

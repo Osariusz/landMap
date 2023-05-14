@@ -1,7 +1,6 @@
 package com.osariusz.paprysMapMod.client;
 
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
-import com.osariusz.paprysMapMod.server.ServerMapData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;
 
