@@ -3,6 +3,7 @@ package com.osariusz.paprysMapMod.networking;
 
 import com.osariusz.paprysMapMod.PapyrusMapMod;
 import com.osariusz.paprysMapMod.networking.packet.LogicalMapS2CPacket;
+import com.osariusz.paprysMapMod.networking.packet.RequestMapC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -34,10 +35,20 @@ public class LogicalMapMessages {
                 .encoder(LogicalMapS2CPacket::toBytes)
                 .consumerMainThread(LogicalMapS2CPacket::handle)
                 .add();
+
+        net.messageBuilder(RequestMapC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(RequestMapC2SPacket::new)
+                .encoder(RequestMapC2SPacket::toBytes)
+                .consumerMainThread(RequestMapC2SPacket::handle)
+                .add();
     }
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+    }
+
+    public static <MSG> void sendToServer(MSG message){
+        INSTANCE.sendToServer(message);
     }
 
 }

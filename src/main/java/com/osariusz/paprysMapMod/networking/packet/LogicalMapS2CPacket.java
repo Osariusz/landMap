@@ -72,7 +72,7 @@ public class LogicalMapS2CPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier){
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            ClientMapData.setLogicalMap(new LogicalMap(isWater,start,xStep,yStep,mapSegmentsX,mapSegmentsY));
+            ClientMapData.getInstance().setLogicalMap(new LogicalMap(isWater,start,xStep,yStep,mapSegmentsX,mapSegmentsY));
         });
         return true;
     }

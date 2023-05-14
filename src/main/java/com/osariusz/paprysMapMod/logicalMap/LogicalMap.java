@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -117,6 +118,9 @@ public class LogicalMap implements Serializable {
 
             this.isWater = biomesToWater(biomes);
         }
+    }
+    public LogicalMap(Level level, Vec3 centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
+        this(level,new Vec3i(centre.x,centre.y,centre.z),radiusX,radiusY,mapSegmentsX,mapSegmentsY);
     }
 
     public LogicalMap(@NotNull List<List<Boolean>> isWater, @NotNull Vec3i start, double xStep, double yStep, int mapSegmentsX, int mapSegmentsY) {

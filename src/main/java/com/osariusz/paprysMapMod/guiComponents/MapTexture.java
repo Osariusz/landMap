@@ -18,64 +18,86 @@ public class MapTexture {
     protected int width;
     protected int height;
 
+    public float getScale() {
+        return scale;
+    }
+
+    protected float scale;
+
     protected DynamicTexture texture;
 
     protected RenderType renderType;
 
-    public MapTexture(int width, int height){
+    public MapTexture(int width, int height, float scale) {
         this.width = width;
         this.height = height;
-        this.texture = new DynamicTexture(width,height,true);
+        this.scale = scale;
+        this.texture = new DynamicTexture(width, height, true);
         ResourceLocation resourcelocation = Minecraft.getInstance().getTextureManager().register("oslar", this.texture);
         this.renderType = RenderType.text(resourcelocation);
     }
 
-    public int getMapColor(int R, int G, int B, int Alpha){
-        Color color = new Color(B,G,R,Alpha);
+    public int getMapColor(int R, int G, int B, int Alpha) {
+        Color color = new Color(B, G, R, Alpha);
         return color.getRGB();
     }
 
-    public int waterColor(){
-        return getMapColor(52,166,218,255);
-    }
-    public int landColor(){
-        return getMapColor(75,25,25,255);
-    }
-    public int playerColor(){
-        return getMapColor(250,255,10,255);
+    public int waterColor() {
+        return getMapColor(52, 166, 218, 255);
     }
 
-    public void updateTexture(LogicalMap logicalMap){
+    public int landColor() {
+        return getMapColor(75, 25, 25, 255);
+    }
+
+    public int playerColor() {
+        return getMapColor(250, 255, 10, 255);
+    }
+    public int backgroundColor(){
+        return getMapColor(0,0,0,0);
+    }
+
+    public Integer getPixelColor(LogicalMap logicalMap, int x, int y){
+        if(x<0 || y<0 || x>=logicalMap.getMapSegmentsX() || y>=logicalMap.getMapSegmentsY()){
+            return backgroundColor();
+        }
+        int color = landColor();
+        if (logicalMap.isWater(x,y)) {
+            color = waterColor();
+        }
+        if (x == width / 2 && y == height / 2) {
+            color = playerColor();
+        }
+        return color;
+    }
+
+    public void updateTexture(LogicalMap logicalMap, int xCameraOffset, int yCameraOffset) {
         int logicalWidth = logicalMap.getWidth();
         int logicalHeight = logicalMap.getHeight();
 
-        int xOffset = Math.max(0,logicalWidth-width);
-        int yOffset = Math.max(0,logicalHeight-height);
+        int xCentreAdjustment = Math.max(0, logicalWidth - width);
+        int yCentreAdjustment = Math.max(0, logicalHeight - height);
 
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
-                int color = landColor();
-                if(logicalMap.isWater(x+xOffset/2,y+yOffset/2)){
-                    color = waterColor();
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                Integer color = getPixelColor(logicalMap, x + xCameraOffset + xCentreAdjustment / 2, y + yCameraOffset + yCentreAdjustment / 2);
+                if(color != null){
+                    this.texture.getPixels().setPixelRGBA(x, y, color);
                 }
-                if(x==width/2 && y == height/2){
-                    color = playerColor();
-                }
-                this.texture.getPixels().setPixelRGBA(x, y, color);
             }
         }
         this.texture.upload();
     }
 
-    public void render(PoseStack poseStack, LogicalMap logicalMap){
-        updateTexture(logicalMap);
+    public void render(PoseStack poseStack, LogicalMap logicalMap, int xOffset, int yOffset) {
+        updateTexture(logicalMap, xOffset, yOffset);
         Matrix4f matrix4f = poseStack.last().pose();
         MultiBufferSource.BufferSource multiBufferSource = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
 
         VertexConsumer vertexconsumer = multiBufferSource.getBuffer(renderType);
-        vertexconsumer.vertex(matrix4f, 0.0F, (float)height, -0.01F).color(255, 255, 255, 255).uv(0.0F, 1.0F).uv2(15728880).endVertex();
-        vertexconsumer.vertex(matrix4f, (float)width, (float)height, -0.01F).color(255, 255, 255, 255).uv(1.0F, 1.0F).uv2(15728880).endVertex();
-        vertexconsumer.vertex(matrix4f, (float)width, 0.0F, -0.01F).color(255, 255, 255, 255).uv(1.0F, 0.0F).uv2(15728880).endVertex();
+        vertexconsumer.vertex(matrix4f, 0.0F, (float) height, -0.01F).color(255, 255, 255, 255).uv(0.0F, 1.0F).uv2(15728880).endVertex();
+        vertexconsumer.vertex(matrix4f, (float) width, (float) height, -0.01F).color(255, 255, 255, 255).uv(1.0F, 1.0F).uv2(15728880).endVertex();
+        vertexconsumer.vertex(matrix4f, (float) width, 0.0F, -0.01F).color(255, 255, 255, 255).uv(1.0F, 0.0F).uv2(15728880).endVertex();
         vertexconsumer.vertex(matrix4f, 0.0F, 0.0F, -0.01F).color(255, 255, 255, 255).uv(0.0F, 0.0F).uv2(15728880).endVertex();
         multiBufferSource.endBatch();
     }
