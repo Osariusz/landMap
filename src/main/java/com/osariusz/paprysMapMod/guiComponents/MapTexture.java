@@ -32,7 +32,7 @@ public class MapTexture {
         this.width = width;
         this.height = height;
         this.scale = scale;
-        this.texture = new DynamicTexture(width, height, true);
+        this.texture = new DynamicTexture(this.width, this.height, true);
         ResourceLocation resourcelocation = Minecraft.getInstance().getTextureManager().register("oslar", this.texture);
         this.renderType = RenderType.text(resourcelocation);
     }
@@ -72,6 +72,7 @@ public class MapTexture {
     }
 
     public void updateTexture(LogicalMap logicalMap, int xCameraOffset, int yCameraOffset) {
+        xCameraOffset = 0; yCameraOffset = 0; //DEBUG
         int logicalWidth = logicalMap.getWidth();
         int logicalHeight = logicalMap.getHeight();
 
@@ -88,6 +89,7 @@ public class MapTexture {
                 }
             }
         }
+        this.texture.getPixels().setPixelRGBA(width-1,height-1,playerColor());
         this.texture.upload();
     }
 

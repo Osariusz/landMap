@@ -57,6 +57,10 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         poseStack.scale((float)xScale,(float)yScale,1.0f);
     }
 
+    public void translateMap(PoseStack poseStack, double x, double y){
+        poseStack.translate(-x, -y, 0.0D);
+    }
+
     @Override
     public void render(PoseStack poseStack, int p_96053_, int p_96054_, float p_96055_) {
         if(texture == null || (ClientMapData.getInstance().getMapHeight() != texture.height || ClientMapData.getInstance().getMapWidth() != texture.width)){
@@ -65,6 +69,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         }
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
+        translateMap(mapPoseStack,ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
         texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(),ClientMapData.getInstance().getxOffset(),ClientMapData.getInstance().getyOffset());
         super.render(poseStack, p_96053_, p_96054_, p_96055_);
     }
@@ -89,8 +94,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         if(y<0){
             y = Math.floor(y);
         }
-        ClientMapData.getInstance().addxOffset((int)Math.ceil(x));
-        ClientMapData.getInstance().addyOffset((int)Math.ceil(y));
+        ClientMapData.getInstance().addxOffset((int)(Math.ceil(x)/ClientMapData.getInstance().getMapScale()));
+        ClientMapData.getInstance().addyOffset((int)(Math.ceil(y)/ClientMapData.getInstance().getMapScale()));
     }
 
 
