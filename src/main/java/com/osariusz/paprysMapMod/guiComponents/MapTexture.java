@@ -72,7 +72,6 @@ public class MapTexture {
     }
 
     public void updateTexture(LogicalMap logicalMap, int xCameraOffset, int yCameraOffset) {
-        xCameraOffset = 0; yCameraOffset = 0; //DEBUG
         int logicalWidth = logicalMap.getWidth();
         int logicalHeight = logicalMap.getHeight();
 

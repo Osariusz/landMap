@@ -70,7 +70,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
         translateMap(mapPoseStack,ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
-        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(),ClientMapData.getInstance().getxOffset(),ClientMapData.getInstance().getyOffset());
+        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(),0,0);
         super.render(poseStack, p_96053_, p_96054_, p_96055_);
     }
 
