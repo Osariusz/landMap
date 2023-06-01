@@ -60,7 +60,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     @Override
     public void render(PoseStack poseStack, int p_96053_, int p_96054_, float p_96055_) {
         if(texture == null || (ClientMapData.getInstance().getMapHeight() != texture.height || ClientMapData.getInstance().getMapWidth() != texture.width)){
-            newTexture((int)(ClientMapData.getInstance().getMapWidth()/ClientMapData.getInstance().getMapScale()), (int)(ClientMapData.getInstance().getMapHeight()/ClientMapData.getInstance().getMapScale()), ClientMapData.getInstance().getMapScale());
+            System.out.println(ClientMapData.getInstance().getMapScale());
+            newTexture((int)(ClientMapData.getInstance().getMapWidth()), (int)(ClientMapData.getInstance().getMapHeight()), ClientMapData.getInstance().getMapScale());
         }
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());

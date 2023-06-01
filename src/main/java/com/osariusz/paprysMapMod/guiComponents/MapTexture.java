@@ -59,7 +59,7 @@ public class MapTexture {
 
     public Integer getPixelColor(LogicalMap logicalMap, int x, int y){
         if(x<0 || y<0 || x>=logicalMap.getMapSegmentsX() || y>=logicalMap.getMapSegmentsY()){
-            return backgroundColor();
+            return landColor();
         }
         int color = landColor();
         if (logicalMap.isWater(x,y)) {
@@ -78,8 +78,10 @@ public class MapTexture {
         int xCentreAdjustment = Math.max(0, logicalWidth - width);
         int yCentreAdjustment = Math.max(0, logicalHeight - height);
 
-        for (int x = 0; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
+        int t = (int)(width/getScale());
+
+        for (int x = 0; x < (int)(width); ++x) {
+            for (int y = 0; y < (int)(height); ++y) {
                 Integer color = getPixelColor(logicalMap, x + xCameraOffset + xCentreAdjustment / 2, y + yCameraOffset + yCentreAdjustment / 2);
                 if(color != null){
                     this.texture.getPixels().setPixelRGBA(x, y, color);

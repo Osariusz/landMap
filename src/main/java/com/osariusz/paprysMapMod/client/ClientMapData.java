@@ -12,17 +12,16 @@ public class ClientMapData {
     private int xOffset = 0, yOffset = 0;
 
     public void setMapScale(float mapScale) {
-        if(mapScale < 0.1f){
+        if (mapScale < 0.1f) {
             mapScale = 0.1f;
-        }
-        else if(mapScale > 500.0f){
+        } else if (mapScale > 500.0f) {
             mapScale = 500.0f;
         }
         this.mapScale = mapScale;
     }
 
-    public void addMapScale(float offset){
-        setMapScale(getMapScale()+offset);
+    public void addMapScale(float offset) {
+        setMapScale(getMapScale() + offset);
     }
 
     public float getMapScale() {
@@ -35,8 +34,8 @@ public class ClientMapData {
         return xOffset;
     }
 
-    public void addxOffset(int x){
-        setxOffset(getxOffset()+x);
+    public void addxOffset(int x) {
+        setxOffset(getxOffset() + x);
     }
 
     public void setxOffset(int xOffset) {
@@ -47,8 +46,8 @@ public class ClientMapData {
         return yOffset;
     }
 
-    public void addyOffset(int y){
-        setyOffset(getyOffset()+y);
+    public void addyOffset(int y) {
+        setyOffset(getyOffset() + y);
     }
 
     public void setyOffset(int yOffset) {
@@ -56,24 +55,29 @@ public class ClientMapData {
     }
 
 
-    public static ClientMapData getInstance(){
+    public static ClientMapData getInstance() {
         return INSTANCE;
     }
 
-    public void setLogicalMap(LogicalMap logicalMap){
+    public void setLogicalMap(LogicalMap logicalMap) {
         clientLogicalMap = logicalMap;
     }
-    public LogicalMap getLogicalMap(){
-        if(clientLogicalMap == null){
-            clientLogicalMap = new LogicalMap(Minecraft.getInstance().level, new Vec3i(0,0,0),5,5,5,5);
+
+    public LogicalMap getLogicalMap() {
+        if (clientLogicalMap == null) {
+            clientLogicalMap = new LogicalMap(Minecraft.getInstance().level, new Vec3i(0, 0, 0), 5, 5, 5, 5);
         }
         return clientLogicalMap;
     }
 
-    public int getMapWidth(){
-        return Math.min((int)(Minecraft.getInstance().getWindow().getWidth()/getMapScale()), getLogicalMap().getWidth());
+    public int getMapWidth() {
+        //return Math.min((int) (Minecraft.getInstance().getWindow().getWidth() / getMapScale()), getLogicalMap().getWidth());
+        return (int)(Minecraft.getInstance().getWindow().getWidth());
     }
-    public int getMapHeight(){
-        return Math.min((int)(Minecraft.getInstance().getWindow().getHeight()/getMapScale()), getLogicalMap().getHeight());
+
+    public int getMapHeight() {
+        int h = (int) (Minecraft.getInstance().getWindow().getHeight() / getMapScale());
+        //return Math.min((int) (Minecraft.getInstance().getWindow().getHeight() / getMapScale()), getLogicalMap().getHeight());
+        return (int)(Minecraft.getInstance().getWindow().getHeight());
     }
 }
