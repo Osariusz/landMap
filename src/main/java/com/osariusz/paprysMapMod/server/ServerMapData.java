@@ -15,20 +15,20 @@ public class ServerMapData {
 
     LogicalMap logicalMap;
 
-    public static ServerMapData getInstance(){
+    public static ServerMapData getInstance() {
         return INSTANCE;
     }
 
-    public void playerMapOpen(ServerPlayer player){
+    public void playerMapOpen(ServerPlayer player) {
         int width = 1000;
         int height = 500;
-        if(true){
-            logicalMap = new LogicalMap(player.getLevel(), player.position(),10000,10000,width,height);
+        if (true) {
+            logicalMap = new LogicalMap(player.getLevel(), player.position(), 10000, 10000, width, height);
         }
         System.out.println("blockclick");
-        LogicalMapMessages.sendToPlayer(new LogicalMapS2CPacket(logicalMap),player);
-        NetworkHooks.openScreen(player,new SimpleMenuProvider(
-                (containerId, playerInventory, playerLambda) -> new MapMenu(containerId,playerInventory), Component.translatable("babel"))
+        LogicalMapMessages.sendToPlayer(new LogicalMapS2CPacket(logicalMap), player);
+        NetworkHooks.openScreen(player, new SimpleMenuProvider(
+                (containerId, playerInventory, playerLambda) -> new MapMenu(containerId, playerInventory), Component.translatable("babel"))
         );
         System.out.println("blockclick2");
     }

@@ -12,9 +12,9 @@ public class KeyBindings {
 
     public static final KeyMapping openMapBinding = new KeyMapping("key.openMapBinding", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, modCategory);
 
-    public static final KeyMapping mapPanningBinding = new KeyMapping("key.mapPanningBinding", KeyConflictContext.GUI,InputConstants.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_RIGHT, modCategory);
+    public static final KeyMapping mapPanningBinding = new KeyMapping("key.mapPanningBinding", KeyConflictContext.GUI, InputConstants.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_RIGHT, modCategory);
 
-    public static void register(RegisterKeyMappingsEvent event){
+    public static void register(RegisterKeyMappingsEvent event) {
         event.register(KeyBindings.openMapBinding);
         event.register(KeyBindings.mapPanningBinding);
     }

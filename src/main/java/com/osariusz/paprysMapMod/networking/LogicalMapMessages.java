@@ -47,7 +47,7 @@ public class LogicalMapMessages {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 
-    public static <MSG> void sendToServer(MSG message){
+    public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);
     }
 

@@ -18,7 +18,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
 
     @Override
     public boolean mouseScrolled(double x, double y, double scrollAmount) {
-        ClientMapData.getInstance().addMapScale((float)scrollAmount*0.1f);
+        ClientMapData.getInstance().addMapScale((float) scrollAmount * 0.1f);
         return true;
     }
 
@@ -29,8 +29,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     }
 
 
-    public void newTexture(int width, int height, float scale){
-        this.texture = new MapTexture(width,height, scale);
+    public void newTexture(int width, int height, float scale) {
+        this.texture = new MapTexture(width, height, scale);
     }
 
     @Override
@@ -43,40 +43,40 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     }
 
     @Override
-    public void renderLabels(PoseStack p_97808_, int p_97809_, int p_97810_){
+    public void renderLabels(PoseStack p_97808_, int p_97809_, int p_97810_) {
     }
 
-    public void scaleMap(PoseStack poseStack, float scale){
+    public void scaleMap(PoseStack poseStack, float scale) {
         double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
-        double xScale = (double)Minecraft.getInstance().getWindow().getWidth()/texture.width;
-        double yScale = (double)Minecraft.getInstance().getWindow().getHeight()/texture.height;
+        double xScale = (double) Minecraft.getInstance().getWindow().getWidth() / texture.width;
+        double yScale = (double) Minecraft.getInstance().getWindow().getHeight() / texture.height;
         xScale /= guiScale;
         yScale /= guiScale;
         xScale *= scale;
         yScale *= scale;
-        poseStack.scale((float)xScale,(float)yScale,1.0f);
+        poseStack.scale((float) xScale, (float) yScale, 1.0f);
     }
 
-    public void translateMap(PoseStack poseStack, double x, double y){
+    public void translateMap(PoseStack poseStack, double x, double y) {
         poseStack.translate(-x, -y, 0.0D);
     }
 
     @Override
     public void render(PoseStack poseStack, int p_96053_, int p_96054_, float p_96055_) {
-        if(texture == null || (ClientMapData.getInstance().getMapHeight() != texture.height || ClientMapData.getInstance().getMapWidth() != texture.width)){
+        if (texture == null || (ClientMapData.getInstance().getMapHeight() != texture.height || ClientMapData.getInstance().getMapWidth() != texture.width)) {
             System.out.println(ClientMapData.getInstance().getMapScale());
-            newTexture((int)(ClientMapData.getInstance().getMapWidth()), (int)(ClientMapData.getInstance().getMapHeight()), ClientMapData.getInstance().getMapScale());
+            newTexture((int) (ClientMapData.getInstance().getMapWidth()), (int) (ClientMapData.getInstance().getMapHeight()), ClientMapData.getInstance().getMapScale());
         }
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
-        translateMap(mapPoseStack,ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
-        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(),0,0);
+        translateMap(mapPoseStack, ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
+        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), 0, 0);
         super.render(poseStack, p_96053_, p_96054_, p_96055_);
     }
 
     @Override
-    public boolean mouseDragged(double x, double y, int type, double xDistance, double yDistance){
-        if(KeyBindings.mapPanningBinding.isActiveAndMatches(InputConstants.Type.MOUSE.getOrCreate(type))){
+    public boolean mouseDragged(double x, double y, int type, double xDistance, double yDistance) {
+        if (KeyBindings.mapPanningBinding.isActiveAndMatches(InputConstants.Type.MOUSE.getOrCreate(type))) {
             double xDiff = xDistance;
             double yDiff = yDistance;
             pan(xDiff, yDiff);
@@ -85,17 +85,17 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         return false;
     }
 
-    public void pan(double x, double y){
+    public void pan(double x, double y) {
         x = -x;
         y = -y;
-        if(x<0){
+        if (x < 0) {
             x = Math.floor(x);
         }
-        if(y<0){
+        if (y < 0) {
             y = Math.floor(y);
         }
-        ClientMapData.getInstance().addxOffset((int)(Math.ceil(x)/ClientMapData.getInstance().getMapScale()));
-        ClientMapData.getInstance().addyOffset((int)(Math.ceil(y)/ClientMapData.getInstance().getMapScale()));
+        ClientMapData.getInstance().addxOffset((int) (Math.ceil(x) / ClientMapData.getInstance().getMapScale()));
+        ClientMapData.getInstance().addyOffset((int) (Math.ceil(y) / ClientMapData.getInstance().getMapScale()));
     }
 
 

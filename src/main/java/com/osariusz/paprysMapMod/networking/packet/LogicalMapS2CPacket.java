@@ -21,9 +21,9 @@ public class LogicalMapS2CPacket {
 
     int mapSegmentsX, mapSegmentsY;
 
-    public LogicalMapS2CPacket(LogicalMap logicalMap){
+    public LogicalMapS2CPacket(LogicalMap logicalMap) {
         xAmount = logicalMap.getIsWater().size();
-        if(xAmount < 1){
+        if (xAmount < 1) {
             throw new IndexOutOfBoundsException();
         }
         yAmount = logicalMap.getIsWater().get(0).size();
@@ -35,28 +35,28 @@ public class LogicalMapS2CPacket {
         this.mapSegmentsY = logicalMap.getMapSegmentsY();
     }
 
-    public LogicalMapS2CPacket(FriendlyByteBuf buf){
+    public LogicalMapS2CPacket(FriendlyByteBuf buf) {
         xAmount = buf.readInt();
         yAmount = buf.readInt();
         isWater = new ArrayList<>();
-        for(int i = 0;i<xAmount;i++){
+        for (int i = 0; i < xAmount; i++) {
             isWater.add(new ArrayList<>());
-            for(int j = 0;j<yAmount;j++){
+            for (int j = 0; j < yAmount; j++) {
                 isWater.get(i).add(buf.readBoolean());
             }
         }
-        start = new Vec3i(buf.readInt(),buf.readInt(),buf.readInt());
+        start = new Vec3i(buf.readInt(), buf.readInt(), buf.readInt());
         xStep = buf.readDouble();
         yStep = buf.readDouble();
         mapSegmentsX = buf.readInt();
         mapSegmentsY = buf.readInt();
     }
 
-    public void toBytes(FriendlyByteBuf buf){
+    public void toBytes(FriendlyByteBuf buf) {
         buf.writeInt(xAmount);
         buf.writeInt(yAmount);
-        for(int i = 0;i<xAmount;i++){
-            for(int j = 0;j<yAmount;j++){
+        for (int i = 0; i < xAmount; i++) {
+            for (int j = 0; j < yAmount; j++) {
                 buf.writeBoolean(isWater.get(i).get(j));
             }
         }
@@ -69,10 +69,10 @@ public class LogicalMapS2CPacket {
         buf.writeInt(mapSegmentsY);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> supplier){
+    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            ClientMapData.getInstance().setLogicalMap(new LogicalMap(isWater,start,xStep,yStep,mapSegmentsX,mapSegmentsY));
+            ClientMapData.getInstance().setLogicalMap(new LogicalMap(isWater, start, xStep, yStep, mapSegmentsX, mapSegmentsY));
         });
         return true;
     }
