@@ -96,8 +96,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         if (y < 0) {
             y = Math.floor(y);
         }
-        ClientMapData.getInstance().addxOffset((int) (Math.ceil(x) / ClientMapData.getInstance().getMapScale()));
-        ClientMapData.getInstance().addyOffset((int) (Math.ceil(y) / ClientMapData.getInstance().getMapScale()));
+        ClientMapData.getInstance().addxOffset((Math.ceil(x) / ClientMapData.getInstance().getMapScale()));
+        ClientMapData.getInstance().addyOffset((Math.ceil(y) / ClientMapData.getInstance().getMapScale()));
     }
 
 

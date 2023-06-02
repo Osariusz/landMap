@@ -11,7 +11,7 @@ public class ClientMapData {
     private static ClientMapData INSTANCE = new ClientMapData();
     private LogicalMap clientLogicalMap;
 
-    private int xOffset = 0, yOffset = 0;
+    private double xOffset = 0, yOffset = 0;
 
     public void setMapScale(float mapScale) {
         if (mapScale < 0.1f) {
@@ -32,27 +32,27 @@ public class ClientMapData {
 
     private float mapScale = 1.0f;
 
-    public int getxOffset() {
+    public double getxOffset() {
         return xOffset;
     }
 
-    public void addxOffset(int x) {
+    public void addxOffset(double x) {
         setxOffset(getxOffset() + x);
     }
 
-    public void setxOffset(int xOffset) {
+    public void setxOffset(double xOffset) {
         this.xOffset = xOffset;
     }
 
-    public int getyOffset() {
+    public double getyOffset() {
         return yOffset;
     }
 
-    public void addyOffset(int y) {
+    public void addyOffset(double y) {
         setyOffset(getyOffset() + y);
     }
 
-    public void setyOffset(int yOffset) {
+    public void setyOffset(double yOffset) {
         this.yOffset = yOffset;
     }
 
