@@ -4,8 +4,8 @@ Networking (DONE)
 Optimization 1 (DONE)
 Scaling the map according to monitor resolution (DONE)
 Zooming and panning (DONE)
-Server test
-Opening the map shortcut that can be changed in the options
+Opening the map shortcut that can be changed in the options (DONE)
+Server test (done)
 Optimization 2
 Changing map quality through configs
 Graphical improvements
@@ -13,3 +13,4 @@ waypoints
 	coordinates and names
 	in-game visibility
 	lore
+physical map item

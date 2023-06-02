@@ -48,7 +48,7 @@ public class PapyrusMapMod {
         MENUS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ModEvents());
-        modEventBus.register(new KeyBindingEvent());
+        //modEventBus.register(new KeyBindingEvent());
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -62,6 +62,9 @@ public class PapyrusMapMod {
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(
+                () -> MinecraftForge.EVENT_BUS.register(new KeyBindingEvent())
+        );
         event.enqueueWork(
                 () -> MenuScreens.register(MAP_MENU.get(), MapScreen::new)
         );
