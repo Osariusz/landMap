@@ -31,7 +31,7 @@ public class LogicalMap implements Serializable {
     double xStep;
 
     double yStep;
-    List<List<Boolean>> isWater = new ArrayList<>();
+    Boolean[][] isWater;
 
     public Vec3i getStart() {
         return start;
@@ -53,16 +53,16 @@ public class LogicalMap implements Serializable {
         return yStep;
     }
 
-    public List<List<Boolean>> getIsWater() {
+    public Boolean[][] getIsWater() {
         return isWater;
     }
 
     public Boolean isWater(int x, int y) {
-        return isWater.get(x).get(y);
+        return isWater[x][y];
     }
 
 
-    public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes) {
+    public Boolean[][] biomesToWater(Holder<Biome>[][] biomes) {
         List<ResourceKey<Biome>> waterBiomes = new ArrayList<>(List.of(
                 Biomes.OCEAN,
                 Biomes.DEEP_COLD_OCEAN,
@@ -76,28 +76,29 @@ public class LogicalMap implements Serializable {
                 Biomes.RIVER,
                 Biomes.FROZEN_RIVER
         ));
-        List<List<Boolean>> isWater = new ArrayList<>();
-        for (int x = 0; x < biomes.size(); ++x) {
-            isWater.add(new ArrayList<>());
-            for (int y = 0; y < biomes.get(x).size(); ++y) {
+        Boolean[][] isWater = new Boolean[mapSegmentsX][mapSegmentsY];
+        for (int x = 0; x < mapSegmentsX; ++x) {
+            for (int y = 0; y < mapSegmentsY; ++y) {
                 boolean waterBiome = false;
                 for (ResourceKey<Biome> biome : waterBiomes) {
-                    if (biomes.get(x).get(y).is(biome)) {
+                    if (biomes[x][y].is(biome)) {
                         waterBiome = true;
                     }
                 }
                 if (waterBiome) {
-                    isWater.get(x).add(true);
+                    isWater[x][y] = true;
                 } else {
-                    isWater.get(x).add(false);
+                    isWater[x][y] = false;
                 }
             }
         }
+
         return isWater;
     }
 
     public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
         if (level != null) {
+            long s = System.currentTimeMillis();
             this.mapSegmentsX = mapSegmentsX;
             this.mapSegmentsY = mapSegmentsY;
             xStep = (radiusX * 2) / (double) mapSegmentsX;
@@ -105,18 +106,20 @@ public class LogicalMap implements Serializable {
 
             start = centre.offset(-radiusX, 0, -radiusY);
 
-            List<List<Holder<Biome>>> biomes = new ArrayList<>();
+            Holder<Biome>[][] biomes = new Holder[mapSegmentsX][mapSegmentsY];
+            //List<List<Holder<Biome>>> biomes = new ArrayList<>();
 
             for (int x = 0; x < mapSegmentsX; x++) {
                 int logicalX = (int) (x * xStep + centre.getX() - radiusX);
-                biomes.add(new ArrayList<>());
                 for (int y = 0; y < mapSegmentsY; y++) {
                     int logicalY = (int) (y * yStep + centre.getZ() - radiusY);
-                    biomes.get(x).add(level.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
+                    biomes[x][y] = level.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY));// .get(x).add(level.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
                 }
             }
 
             this.isWater = biomesToWater(biomes);
+            System.out.println("Czas:");
+            System.out.println(System.currentTimeMillis()-s);
         }
     }
 
@@ -124,7 +127,7 @@ public class LogicalMap implements Serializable {
         this(level, new Vec3i(centre.x, centre.y, centre.z), radiusX, radiusY, mapSegmentsX, mapSegmentsY);
     }
 
-    public LogicalMap(@NotNull List<List<Boolean>> isWater, @NotNull Vec3i start, double xStep, double yStep, int mapSegmentsX, int mapSegmentsY) {
+    public LogicalMap(@NotNull Boolean[][] isWater, @NotNull Vec3i start, double xStep, double yStep, int mapSegmentsX, int mapSegmentsY) {
         this.isWater = isWater;
         this.start = start;
         this.xStep = xStep;

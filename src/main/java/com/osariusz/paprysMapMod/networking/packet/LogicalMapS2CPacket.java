@@ -15,18 +15,18 @@ public class LogicalMapS2CPacket {
 
 
     int xAmount, yAmount;
-    List<List<Boolean>> isWater;
+    Boolean[][] isWater;
     Vec3i start;
     double xStep, yStep;
 
     int mapSegmentsX, mapSegmentsY;
 
     public LogicalMapS2CPacket(LogicalMap logicalMap) {
-        xAmount = logicalMap.getIsWater().size();
+        xAmount = logicalMap.getMapSegmentsX();
         if (xAmount < 1) {
             throw new IndexOutOfBoundsException();
         }
-        yAmount = logicalMap.getIsWater().get(0).size();
+        yAmount = logicalMap.getMapSegmentsY();
         this.isWater = logicalMap.getIsWater();
         this.start = logicalMap.getStart();
         this.xStep = logicalMap.getxStep();
@@ -38,11 +38,10 @@ public class LogicalMapS2CPacket {
     public LogicalMapS2CPacket(FriendlyByteBuf buf) {
         xAmount = buf.readInt();
         yAmount = buf.readInt();
-        isWater = new ArrayList<>();
+        isWater = new Boolean[xAmount][yAmount];
         for (int i = 0; i < xAmount; i++) {
-            isWater.add(new ArrayList<>());
             for (int j = 0; j < yAmount; j++) {
-                isWater.get(i).add(buf.readBoolean());
+                isWater[i][j] = buf.readBoolean();
             }
         }
         start = new Vec3i(buf.readInt(), buf.readInt(), buf.readInt());
@@ -57,7 +56,7 @@ public class LogicalMapS2CPacket {
         buf.writeInt(yAmount);
         for (int i = 0; i < xAmount; i++) {
             for (int j = 0; j < yAmount; j++) {
-                buf.writeBoolean(isWater.get(i).get(j));
+                buf.writeBoolean(isWater[i][j]);
             }
         }
         buf.writeInt(start.getX());
