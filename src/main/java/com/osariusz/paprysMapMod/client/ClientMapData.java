@@ -71,13 +71,10 @@ public class ClientMapData {
     }
 
     public int getMapWidth() {
-        //return Math.min((int) (Minecraft.getInstance().getWindow().getWidth() / getMapScale()), getLogicalMap().getWidth());
-        return (int) (Minecraft.getInstance().getWindow().getWidth());
+        return getLogicalMap().getWidth();
     }
 
     public int getMapHeight() {
-        int h = (int) (Minecraft.getInstance().getWindow().getHeight() / getMapScale());
-        //return Math.min((int) (Minecraft.getInstance().getWindow().getHeight() / getMapScale()), getLogicalMap().getHeight());
-        return (int) (Minecraft.getInstance().getWindow().getHeight());
+        return getLogicalMap().getHeight();
     }
 }

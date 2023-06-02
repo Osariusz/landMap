@@ -89,7 +89,6 @@ public class MapTexture {
                 }
             }
         }
-        this.texture.getPixels().setPixelRGBA(width - 1, height - 1, playerColor());
         this.texture.upload();
     }
 
