@@ -22,10 +22,10 @@ public class ServerMapData {
     }
 
     public void prepareLogicalMap(ServerLevel level){
-        int width = 1200; //1000
-        int height = 600; //500
-        int xRadius = 20000;//10000;
-        int yRadius = 20000;//10000;
+        int width = 1200; //1000 //1200
+        int height = 600; //500 //600
+        int xRadius = 60000;//10000;
+        int yRadius = 30000;//10000;
         logicalMap = new LogicalMap(level,new Vec3(0,0,0), xRadius, yRadius, width, height);
     }
 

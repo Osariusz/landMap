@@ -6,6 +6,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -98,6 +99,7 @@ public class LogicalMap implements Serializable {
 
     public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
         if (level != null) {
+            long s = System.currentTimeMillis();
             this.mapSegmentsX = mapSegmentsX;
             this.mapSegmentsY = mapSegmentsY;
             xStep = (radiusX * 2) / (double) mapSegmentsX;
@@ -107,14 +109,19 @@ public class LogicalMap implements Serializable {
 
             List<List<Holder<Biome>>> biomes = new ArrayList<>();
 
+            BiomeManager biomeManager = level.getBiomeManager();
+
             for (int x = 0; x < mapSegmentsX; x++) {
                 int logicalX = (int) (x * xStep + centre.getX() - radiusX);
                 biomes.add(new ArrayList<>());
                 for (int y = 0; y < mapSegmentsY; y++) {
                     int logicalY = (int) (y * yStep + centre.getZ() - radiusY);
-                    biomes.get(x).add(level.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
+                    biomes.get(x).add(biomeManager.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
                 }
             }
+
+            System.out.println("Czas:");
+            System.out.println(System.currentTimeMillis()-s);
 
             this.isWater = biomesToWater(biomes);
         }
