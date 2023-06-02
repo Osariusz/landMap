@@ -58,7 +58,7 @@ public class MapTexture {
         return getMapColor(0, 0, 0, 0);
     }
 
-    public Integer getPixelColor(LogicalMap logicalMap, int x, int y) {
+    public Integer getMapPixelColor(LogicalMap logicalMap, int x, int y) {
         if (x < 0 || y < 0 || x >= logicalMap.getMapSegmentsX() || y >= logicalMap.getMapSegmentsY()) {
             return landColor();
         }
@@ -66,10 +66,14 @@ public class MapTexture {
         if (logicalMap.isWater(x, y)) {
             color = waterColor();
         }
-        if (x == width / 2 && y == height / 2) {
-            color = playerColor();
-        }
         return color;
+    }
+
+    public Integer getGeneralPixelColor(LogicalMap logicalMap, int x, int y, int xCameraOffset, int yCameraOffset, int xCentreAdjustment, int yCentreAdjustment){
+        if(x==width/2 && y==height/2){
+            return playerColor();
+        }
+        return getMapPixelColor(logicalMap, x+xCameraOffset + xCentreAdjustment/2, y+yCameraOffset + yCentreAdjustment/2);
     }
 
     public void updateTexture(LogicalMap logicalMap, int xCameraOffset, int yCameraOffset) {
@@ -83,7 +87,7 @@ public class MapTexture {
 
         for (int x = 0; x < (int) (width); ++x) {
             for (int y = 0; y < (int) (height); ++y) {
-                Integer color = getPixelColor(logicalMap, x + xCameraOffset + xCentreAdjustment / 2, y + yCameraOffset + yCentreAdjustment / 2);
+                Integer color = getGeneralPixelColor(logicalMap,x,y,xCameraOffset,yCameraOffset,xCentreAdjustment,yCentreAdjustment);
                 if (color != null) {
                     this.texture.getPixels().setPixelRGBA(x, y, color);
                 }

@@ -3,6 +3,8 @@ package com.osariusz.paprysMapMod.client;
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 
 public class ClientMapData {
 
@@ -76,5 +78,13 @@ public class ClientMapData {
 
     public int getMapHeight() {
         return getLogicalMap().getHeight();
+    }
+
+    public Vec2 getPlayerPositionOnMap(){
+        Vec3 playerPosition = Minecraft.getInstance().player.position();
+        int x = (int)(playerPosition.x/clientLogicalMap.getxStep());
+        int y = (int)(playerPosition.z/clientLogicalMap.getyStep());
+        Vec2 positionOnMap = new Vec2(x,y);
+        return positionOnMap;
     }
 }

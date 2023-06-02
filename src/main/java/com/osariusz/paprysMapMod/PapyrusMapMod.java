@@ -6,9 +6,11 @@ import com.osariusz.paprysMapMod.events.ModEvents;
 import com.osariusz.paprysMapMod.guiComponents.MapScreen;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
+import com.osariusz.paprysMapMod.server.ServerMapData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -74,7 +76,8 @@ public class PapyrusMapMod {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Preparing geomap");
+        ServerMapData.getInstance().prepareLogicalMap(event.getServer().getLevel(Level.OVERWORLD));
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

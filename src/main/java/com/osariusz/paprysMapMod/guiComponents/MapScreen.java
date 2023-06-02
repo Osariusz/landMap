@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.phys.Vec2;
 
 
 public class MapScreen extends AbstractContainerScreen<MapMenu> {
@@ -70,7 +71,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
         translateMap(mapPoseStack, ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
-        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), 0, 0);
+        Vec2 playerOnMap = ClientMapData.getInstance().getPlayerPositionOnMap();
+        texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), (int)playerOnMap.x, (int)playerOnMap.y);
         super.render(poseStack, p_96053_, p_96054_, p_96055_);
     }
 
