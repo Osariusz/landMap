@@ -3,7 +3,7 @@ Converting biome info into LogicalMap (DONE)
 Networking (DONE)
 Optimization 1 (DONE)
 Scaling the map according to monitor resolution (DONE)
-Zooming and panning
+Zooming and panning (DONE)
 Server test
 Opening the map shortcut that can be changed in the options
 Optimization 2
