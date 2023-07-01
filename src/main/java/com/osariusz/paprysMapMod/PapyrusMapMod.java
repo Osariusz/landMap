@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -77,7 +78,7 @@ public class PapyrusMapMod {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("Preparing geomap");
-        ServerMapData.getInstance().prepareLogicalMap(event.getServer().getLevel(Level.OVERWORLD));
+        ServerMapData.getInstance().prepareLogicalMap(event.getServer().getLevel(Level.OVERWORLD),new Vec3(0,0,0));
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

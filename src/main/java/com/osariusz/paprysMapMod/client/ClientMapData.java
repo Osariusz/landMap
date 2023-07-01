@@ -82,8 +82,8 @@ public class ClientMapData {
 
     public Vec2 getPlayerPositionOnMap(){
         Vec3 playerPosition = Minecraft.getInstance().player.position();
-        int x = (int)(playerPosition.x/clientLogicalMap.getxStep());
-        int y = (int)(playerPosition.z/clientLogicalMap.getyStep());
+        int x = (int)((playerPosition.x-clientLogicalMap.getStart().getX()- clientLogicalMap.getBlockWidth()/2)/clientLogicalMap.getxStep());
+        int y = (int)((playerPosition.z-clientLogicalMap.getStart().getZ()- clientLogicalMap.getBlockHeight()/2)/clientLogicalMap.getyStep());
         Vec2 positionOnMap = new Vec2(x,y);
         return positionOnMap;
     }

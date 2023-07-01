@@ -11,33 +11,42 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServerMapData {
 
     private static ServerMapData INSTANCE = new ServerMapData();
 
-    LogicalMap logicalMap;
+    List<LogicalMap> logicalMaps = new ArrayList<>();
+
+    int logicalMapWidth = 600;//1200;
+    int logicalMapHeight = 300; //600;
+    int xMapRadius = 30000;
+    int yMapRadius = 15000;
 
     public static ServerMapData getInstance() {
         return INSTANCE;
     }
 
-    public void prepareLogicalMap(ServerLevel level){
-        int width = 1200; //1000 //1200
-        int height = 600; //500 //600
-        int xRadius = 60000;//10000;
-        int yRadius = 30000;//10000;
-        logicalMap = new LogicalMap(level,new Vec3(0,0,0), xRadius, yRadius, width, height);
+    public LogicalMap getLogicalMap(ServerLevel level, Vec3 playerPosition){
+        for(LogicalMap logicalMap : logicalMaps){
+            if(logicalMap.isInside(playerPosition.x,playerPosition.z)){
+                return logicalMap;
+            }
+        }
+        prepareLogicalMap(level, playerPosition);
+        return logicalMaps.get(logicalMaps.size()-1);
+    }
+
+    public void prepareLogicalMap(ServerLevel level, Vec3 playerPosition){
+        int centreX = (int)((playerPosition.x+xMapRadius)/(2*xMapRadius))*2*xMapRadius;
+        int centreY = (int)((playerPosition.z+yMapRadius)/(2*yMapRadius))*2*yMapRadius;
+        logicalMaps.add(new LogicalMap(level,new Vec3(centreX,0,centreY), xMapRadius, yMapRadius, logicalMapWidth, logicalMapHeight));
     }
 
     public void playerMapOpen(ServerPlayer player) {
-        /*int width = 1000;
-        int height = 500;
-        if (true) {
-            logicalMap = new LogicalMap(player.getLevel(), player.position(), 10000, 10000, width, height);
-        }
-        System.out.println("blockclick");*/
-
-        LogicalMapMessages.sendToPlayer(new LogicalMapS2CPacket(logicalMap), player);
+        LogicalMapMessages.sendToPlayer(new LogicalMapS2CPacket(getLogicalMap(player.getLevel(), player.position())), player);
         NetworkHooks.openScreen(player, new SimpleMenuProvider(
                 (containerId, playerInventory, playerLambda) -> new MapMenu(containerId, playerInventory), Component.translatable("babel"))
         );

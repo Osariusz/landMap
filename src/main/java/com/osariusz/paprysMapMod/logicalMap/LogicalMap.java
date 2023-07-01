@@ -13,7 +13,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class LogicalMap implements Serializable {
 
@@ -50,6 +54,14 @@ public class LogicalMap implements Serializable {
         return mapSegmentsY;
     }
 
+    public double getBlockWidth(){
+        return mapSegmentsX*xStep;
+    }
+
+    public double getBlockHeight(){
+        return mapSegmentsY*yStep;
+    }
+
     public double getyStep() {
         return yStep;
     }
@@ -62,6 +74,15 @@ public class LogicalMap implements Serializable {
         return isWater.get(x).get(y);
     }
 
+
+    public Boolean isInside(double x, double y) {
+        if (x >= start.getX() && x <= start.getX() + mapSegmentsX * xStep) {
+            if (y >= start.getZ() && y <= start.getZ() + mapSegmentsY * yStep) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes) {
         List<ResourceKey<Biome>> waterBiomes = new ArrayList<>(List.of(
@@ -97,6 +118,15 @@ public class LogicalMap implements Serializable {
         return isWater;
     }
 
+    public Stream<Holder<Biome>> getBiomesOnX(Level level, int logicalX, int startY, int radiusY) {
+        BiomeManager biomeManager = level.getBiomeManager();
+        return Stream.iterate(0, y -> y + 1).limit(mapSegmentsY).map(
+                (y) -> {
+                    int logicalY = (int) (y * yStep + startY);
+                    return biomeManager.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY));
+                });
+    }
+
     public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
         if (level != null) {
             long s = System.currentTimeMillis();
@@ -109,21 +139,15 @@ public class LogicalMap implements Serializable {
 
             List<List<Holder<Biome>>> biomes = new ArrayList<>();
 
-            BiomeManager biomeManager = level.getBiomeManager();
-
             for (int x = 0; x < mapSegmentsX; x++) {
-                int logicalX = (int) (x * xStep + centre.getX() - radiusX);
-                biomes.add(new ArrayList<>());
-                for (int y = 0; y < mapSegmentsY; y++) {
-                    int logicalY = (int) (y * yStep + centre.getZ() - radiusY);
-                    biomes.get(x).add(biomeManager.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY)));
-                }
+                int logicalX = (int) (x * xStep + start.getX());
+                biomes.add(getBiomesOnX(level, logicalX, start.getZ(), radiusY).collect(Collectors.toList()));
             }
 
-            System.out.println("Czas:");
-            System.out.println(System.currentTimeMillis()-s);
 
             this.isWater = biomesToWater(biomes);
+            System.out.println("Czas:");
+            System.out.println(System.currentTimeMillis() - s);
         }
     }
 
