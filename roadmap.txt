@@ -8,8 +8,8 @@ Opening the map shortcut that can be changed in the options (DONE)
 Server test (done)
 Optimization 2
 Changing map quality through configs
-Option to show biomes instead of water/nonwater
-Changing biome colors through jsons
+Show mouse position coordinates after hovering over the map
+
 Graphical improvements
 waypoints
 	coordinates and names
