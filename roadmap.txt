@@ -6,7 +6,7 @@ Scaling the map according to monitor resolution (DONE)
 Zooming and panning (DONE)
 Opening the map shortcut that can be changed in the options (DONE)
 Server test (done)
-Optimization 2
+Optimization 2 (done)
 Changing map quality through configs
 Show mouse position coordinates after hovering over the map
 
