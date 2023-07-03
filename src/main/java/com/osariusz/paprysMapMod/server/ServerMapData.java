@@ -51,6 +51,5 @@ public class ServerMapData {
         NetworkHooks.openScreen(player, new SimpleMenuProvider(
                 (containerId, playerInventory, playerLambda) -> new MapMenu(containerId, playerInventory), Component.translatable("babel"))
         );
-        System.out.println("blockclick2");
     }
 }

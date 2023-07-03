@@ -118,7 +118,6 @@ public class LogicalMap implements Serializable {
 
     public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
         if (level != null) {
-            long s = System.currentTimeMillis();
             this.mapSegmentsX = mapSegmentsX;
             this.mapSegmentsY = mapSegmentsY;
             xStep = (radiusX * 2) / (double) mapSegmentsX;
@@ -135,8 +134,6 @@ public class LogicalMap implements Serializable {
 
 
             this.isWater = biomesToWater(biomes);
-            System.out.println("Map generation time:");
-            System.out.println(System.currentTimeMillis() - s);
         }
     }
 
