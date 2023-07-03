@@ -1,5 +1,6 @@
 package com.osariusz.paprysMapMod.server;
 
+import com.osariusz.paprysMapMod.configs.CommonConfig;
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
@@ -20,10 +21,10 @@ public class ServerMapData {
 
     List<LogicalMap> logicalMaps = new ArrayList<>();
 
-    int logicalMapWidth = 600;//1200;
-    int logicalMapHeight = 300; //600;
-    int xMapRadius = 30000;
-    int yMapRadius = 15000;
+    int logicalMapWidth = CommonConfig.MAP_SEGMENTS_X.get();
+    int logicalMapHeight = CommonConfig.MAP_SEGMENTS_Y.get();
+    int xMapRadius = CommonConfig.MAP_XRADIUS.get();
+    int yMapRadius = CommonConfig.MAP_YRADIUS.get();
 
     public static ServerMapData getInstance() {
         return INSTANCE;

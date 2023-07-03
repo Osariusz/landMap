@@ -1,26 +1,28 @@
 package com.osariusz.paprysMapMod;
 
 import com.mojang.logging.LogUtils;
+import com.osariusz.paprysMapMod.configs.CommonConfig;
 import com.osariusz.paprysMapMod.events.KeyBindingEvent;
 import com.osariusz.paprysMapMod.events.ModEvents;
 import com.osariusz.paprysMapMod.guiComponents.MapScreen;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
 import com.osariusz.paprysMapMod.server.ServerMapData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,17 +53,15 @@ public class PapyrusMapMod {
         MENUS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ModEvents());
-        //modEventBus.register(new KeyBindingEvent());
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        LOGGER.info("[GEOMAP] Running common setup");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CommonConfig.SPEC,"geomap-common.toml");
         LogicalMapMessages.register();
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
@@ -81,14 +81,4 @@ public class PapyrusMapMod {
         ServerMapData.getInstance().prepareLogicalMap(event.getServer().getLevel(Level.OVERWORLD),new Vec3(0,0,0));
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }
 }
