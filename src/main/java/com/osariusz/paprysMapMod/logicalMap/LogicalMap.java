@@ -1,5 +1,6 @@
 package com.osariusz.paprysMapMod.logicalMap;
 
+import com.osariusz.paprysMapMod.configs.CommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
@@ -85,26 +86,14 @@ public class LogicalMap implements Serializable {
     }
 
     public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes) {
-        List<ResourceKey<Biome>> waterBiomes = new ArrayList<>(List.of(
-                Biomes.OCEAN,
-                Biomes.DEEP_COLD_OCEAN,
-                Biomes.DEEP_OCEAN,
-                Biomes.DEEP_FROZEN_OCEAN,
-                Biomes.DEEP_LUKEWARM_OCEAN,
-                Biomes.COLD_OCEAN,
-                Biomes.FROZEN_OCEAN,
-                Biomes.LUKEWARM_OCEAN,
-                Biomes.WARM_OCEAN,
-                Biomes.RIVER,
-                Biomes.FROZEN_RIVER
-        ));
+        List<String> waterBiomes = CommonConfig.WATER_BIOMES.get();
         List<List<Boolean>> isWater = new ArrayList<>();
         for (int x = 0; x < biomes.size(); ++x) {
             isWater.add(new ArrayList<>());
             for (int y = 0; y < biomes.get(x).size(); ++y) {
                 boolean waterBiome = false;
-                for (ResourceKey<Biome> biome : waterBiomes) {
-                    if (biomes.get(x).get(y).is(biome)) {
+                for (String biome : waterBiomes) {
+                    if (biomes.get(x).get(y).unwrapKey().get().location().toString().equals(biome)) {
                         waterBiome = true;
                     }
                 }
@@ -146,7 +135,7 @@ public class LogicalMap implements Serializable {
 
 
             this.isWater = biomesToWater(biomes);
-            System.out.println("Czas:");
+            System.out.println("Map generation time:");
             System.out.println(System.currentTimeMillis() - s);
         }
     }
