@@ -1,6 +1,7 @@
 package com.osariusz.paprysMapMod;
 
 import com.mojang.logging.LogUtils;
+import com.osariusz.paprysMapMod.configs.ClientConfig;
 import com.osariusz.paprysMapMod.configs.CommonConfig;
 import com.osariusz.paprysMapMod.events.KeyBindingEvent;
 import com.osariusz.paprysMapMod.events.ModEvents;
@@ -50,6 +51,9 @@ public class PapyrusMapMod {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CommonConfig.SPEC,"geomap-common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC,"geomap-client.toml");
+
         MENUS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ModEvents());
@@ -60,11 +64,11 @@ public class PapyrusMapMod {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("[GEOMAP] Running common setup");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CommonConfig.SPEC,"geomap-common.toml");
         LogicalMapMessages.register();
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
+        LOGGER.info("[GEOMAP] Running client setup");
         event.enqueueWork(
                 () -> MinecraftForge.EVENT_BUS.register(new KeyBindingEvent())
         );

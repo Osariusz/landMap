@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
+import com.osariusz.paprysMapMod.configs.ClientConfig;
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -43,15 +44,15 @@ public class MapTexture {
     }
 
     public int waterColor() {
-        return getMapColor(52, 166, 218, 255);
+        return getMapColor(ClientConfig.WATER_COLOR_R.get(), ClientConfig.WATER_COLOR_G.get(), ClientConfig.WATER_COLOR_B.get(), 255);
     }
 
     public int landColor() {
-        return getMapColor(75, 25, 25, 255);
+        return getMapColor(ClientConfig.LAND_COLOR_R.get(), ClientConfig.LAND_COLOR_G.get(), ClientConfig.LAND_COLOR_B.get(), 255);
     }
 
     public int playerColor() {
-        return getMapColor(250, 255, 10, 255);
+        return getMapColor(ClientConfig.PLAYER_COLOR_R.get(), ClientConfig.PLAYER_COLOR_G.get(), ClientConfig.PLAYER_COLOR_B.get(), 255);
     }
 
     public int backgroundColor() {
