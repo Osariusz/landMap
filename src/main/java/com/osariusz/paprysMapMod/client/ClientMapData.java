@@ -89,8 +89,11 @@ public class ClientMapData {
     }
 
     public Vec2 mapToStepCoordinates(Vec2 mapCoordinates){
+        Vec2 playerPosition = getPlayerPositionOnMap();
         float x = mapCoordinates.x+(float)ClientMapData.getInstance().getxOffset()-(float)INSTANCE.getMapWidth()/2.0f;
         float y = mapCoordinates.y+(float)ClientMapData.getInstance().getyOffset()-(float)INSTANCE.getMapHeight()/2.0f;
+        x+= playerPosition.x;
+        y+= playerPosition.y;
         return new Vec2(x,y);
     }
 

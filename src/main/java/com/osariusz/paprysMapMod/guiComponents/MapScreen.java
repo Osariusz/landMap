@@ -48,11 +48,8 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     }
 
     public Vec2 mouseToMapCoordinates(Vec2 mousePositions){
-        Vec2 playerPosition = ClientMapData.getInstance().getPlayerPositionOnMap();
         float x = (float)((ClientMapData.getInstance().getMapWidth()/(double)width)*mousePositions.x);
         float y = (float)((ClientMapData.getInstance().getMapHeight()/(double)height)*mousePositions.y);
-        x+= playerPosition.x;
-        y+= playerPosition.y;
         return new Vec2(x,y);
     }
 
