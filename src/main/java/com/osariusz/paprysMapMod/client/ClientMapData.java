@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class ClientMapData {
 
-    private static ClientMapData INSTANCE = new ClientMapData();
+    private final static ClientMapData INSTANCE = new ClientMapData();
     private LogicalMap clientLogicalMap;
 
     private double xOffset = 0, yOffset = 0;
@@ -87,4 +87,23 @@ public class ClientMapData {
         Vec2 positionOnMap = new Vec2(x,y);
         return positionOnMap;
     }
+
+    public Vec2 mapToStepCoordinates(Vec2 mapCoordinates){
+        float x = mapCoordinates.x+(float)ClientMapData.getInstance().getxOffset()-(float)INSTANCE.getMapWidth()/2.0f;
+        float y = mapCoordinates.y+(float)ClientMapData.getInstance().getyOffset()-(float)INSTANCE.getMapHeight()/2.0f;
+        return new Vec2(x,y);
+    }
+
+    public Vec2 mapToBlockCoordinates(Vec2 mapCoordinates){
+        Vec2 blockCoordinates = mapToStepCoordinates(mapCoordinates);
+        int blockX = (int)blockCoordinates.x; //truncate the decimal values
+        int blockY = (int)blockCoordinates.y;
+        blockX = (int)((double)blockX*getLogicalMap().getxStep());
+        blockY = (int)((double)blockY*getLogicalMap().getyStep());
+        Vec3i start = INSTANCE.getLogicalMap().getStart();
+        blockX += start.getX()+clientLogicalMap.getBlockWidth()/2;
+        blockY += start.getZ()+clientLogicalMap.getBlockHeight()/2;
+        return new Vec2((float)blockX, (float)blockY);
+    }
+
 }

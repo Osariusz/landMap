@@ -47,6 +47,15 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     public void renderLabels(PoseStack p_97808_, int p_97809_, int p_97810_) {
     }
 
+    public Vec2 mouseToMapCoordinates(Vec2 mousePositions){
+        Vec2 playerPosition = ClientMapData.getInstance().getPlayerPositionOnMap();
+        float x = (float)((ClientMapData.getInstance().getMapWidth()/(double)width)*mousePositions.x);
+        float y = (float)((ClientMapData.getInstance().getMapHeight()/(double)height)*mousePositions.y);
+        x+= playerPosition.x;
+        y+= playerPosition.y;
+        return new Vec2(x,y);
+    }
+
     public void scaleMap(PoseStack poseStack, float scale) {
         double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
         double xScale = (double) Minecraft.getInstance().getWindow().getWidth() / texture.width;
@@ -62,8 +71,26 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         poseStack.translate(-x, -y, 0.0D);
     }
 
+    public void renderCoordinateTooltip(PoseStack poseStack, int mouseX, int mouseY){
+        Vec2 blockCoordinates = ClientMapData.getInstance().mapToBlockCoordinates(mouseToMapCoordinates(new Vec2((float)mouseX,(float)mouseY)));
+        int renderMouseX = mouseX;
+        int renderMouseY = mouseY;
+        if(renderMouseY < 20){
+            renderMouseY = 20;
+        }
+
+
+        this.renderTooltip(
+                poseStack,
+                Component.literal(String.format("%d %d",(int)blockCoordinates.x,(int)blockCoordinates.y)),
+                renderMouseX,
+                renderMouseY
+        );
+    }
+
     @Override
-    public void render(PoseStack poseStack, int p_96053_, int p_96054_, float p_96055_) {
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+
         if (texture == null || (ClientMapData.getInstance().getMapHeight() != texture.height || ClientMapData.getInstance().getMapWidth() != texture.width)) {
             System.out.println(ClientMapData.getInstance().getMapScale());
             newTexture((int) (ClientMapData.getInstance().getMapWidth()), (int) (ClientMapData.getInstance().getMapHeight()), ClientMapData.getInstance().getMapScale());
@@ -73,14 +100,13 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         translateMap(mapPoseStack, ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
         Vec2 playerOnMap = ClientMapData.getInstance().getPlayerPositionOnMap();
         texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), (int)playerOnMap.x, (int)playerOnMap.y);
-        super.render(poseStack, p_96053_, p_96054_, p_96055_);
+        renderCoordinateTooltip(poseStack, mouseX, mouseY);
+        super.render(poseStack, mouseX, mouseY, partialTick);
     }
 
     @Override
-    public boolean mouseDragged(double x, double y, int type, double xDistance, double yDistance) {
+    public boolean mouseDragged(double x, double y, int type, double xDiff, double yDiff) {
         if (KeyBindings.mapPanningBinding.isActiveAndMatches(InputConstants.Type.MOUSE.getOrCreate(type))) {
-            double xDiff = xDistance;
-            double yDiff = yDistance;
             pan(xDiff, yDiff);
             return true;
         }
