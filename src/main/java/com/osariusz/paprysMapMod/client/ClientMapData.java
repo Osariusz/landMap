@@ -3,8 +3,10 @@ package com.osariusz.paprysMapMod.client;
 import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class ClientMapData {
 
@@ -80,33 +82,37 @@ public class ClientMapData {
         return getLogicalMap().getHeight();
     }
 
-    public Vec2 getPlayerPositionOnMap(){
+    public Point2D.Double getPlayerPositionOnMap() {
         Vec3 playerPosition = Minecraft.getInstance().player.position();
-        int x = (int)((playerPosition.x-clientLogicalMap.getStart().getX()- clientLogicalMap.getBlockWidth()/2)/clientLogicalMap.getxStep());
-        int y = (int)((playerPosition.z-clientLogicalMap.getStart().getZ()- clientLogicalMap.getBlockHeight()/2)/clientLogicalMap.getyStep());
-        Vec2 positionOnMap = new Vec2(x,y);
+        double x = ((playerPosition.x - clientLogicalMap.getStart().getX() - clientLogicalMap.getBlockWidth() / 2) / clientLogicalMap.getxStep());
+        double y = ((playerPosition.z - clientLogicalMap.getStart().getZ() - clientLogicalMap.getBlockHeight() / 2) / clientLogicalMap.getyStep());
+        Point2D.Double positionOnMap = new Point2D.Double(x, y);
         return positionOnMap;
     }
 
-    public Vec2 mapToStepCoordinates(Vec2 mapCoordinates){
-        Vec2 playerPosition = getPlayerPositionOnMap();
-        float x = mapCoordinates.x+(float)ClientMapData.getInstance().getxOffset()-(float)INSTANCE.getMapWidth()/2.0f;
-        float y = mapCoordinates.y+(float)ClientMapData.getInstance().getyOffset()-(float)INSTANCE.getMapHeight()/2.0f;
-        x+= playerPosition.x;
-        y+= playerPosition.y;
-        return new Vec2(x,y);
+    public Point mapToStepCoordinates(Point2D.Double mapCoordinates) {
+        Point2D.Double playerPosition = getPlayerPositionOnMap();
+        double x = mapCoordinates.x;// / getMapScale();
+        double y = mapCoordinates.y;// / getMapScale();
+        x = x + ClientMapData.getInstance().getxOffset() - INSTANCE.getMapWidth() / 2.0;
+        y = y + ClientMapData.getInstance().getyOffset() - INSTANCE.getMapHeight() / 2.0;
+        int stepX = (int)Math.floor(x)+(int)playerPosition.x; //a floor is needed to handle negative coordinates properly
+        int stepY = (int)Math.floor(y)+(int)playerPosition.y;
+        return new Point(stepX, stepY);
     }
 
-    public Vec2 mapToBlockCoordinates(Vec2 mapCoordinates){
-        Vec2 blockCoordinates = mapToStepCoordinates(mapCoordinates);
-        int blockX = (int)blockCoordinates.x; //truncate the decimal values
-        int blockY = (int)blockCoordinates.y;
-        blockX = (int)((double)blockX*getLogicalMap().getxStep());
-        blockY = (int)((double)blockY*getLogicalMap().getyStep());
+    public Point2D.Double mapToCentreBlockCoordinates(Point2D.Double mapCoordinates) {
+        Point blockCoordinates = mapToStepCoordinates(mapCoordinates);
+        int blockX = blockCoordinates.x; //truncate the decimal values
+        int blockY = blockCoordinates.y;
+        blockX = (int) ((double) blockX * getLogicalMap().getxStep());
+        blockY = (int) ((double) blockY * getLogicalMap().getyStep());
         Vec3i start = INSTANCE.getLogicalMap().getStart();
-        blockX += start.getX()+clientLogicalMap.getBlockWidth()/2;
-        blockY += start.getZ()+clientLogicalMap.getBlockHeight()/2;
-        return new Vec2((float)blockX, (float)blockY);
+        blockX += start.getX() + clientLogicalMap.getBlockWidth() / 2;
+        blockY += start.getZ() + clientLogicalMap.getBlockHeight() / 2;
+        blockX += Math.signum(blockCoordinates.x)*ClientMapData.getInstance().getLogicalMap().getxStep()/2;
+        blockY += Math.signum(blockCoordinates.y)*ClientMapData.getInstance().getLogicalMap().getyStep()/2;
+        return new Point2D.Double(blockX, blockY);
     }
 
 }

@@ -12,7 +12,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.phys.Vec2;
+
+import java.awt.geom.Point2D;
 
 
 public class MapScreen extends AbstractContainerScreen<MapMenu> {
@@ -47,10 +48,11 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     public void renderLabels(PoseStack p_97808_, int p_97809_, int p_97810_) {
     }
 
-    public Vec2 mouseToMapCoordinates(Vec2 mousePositions){
-        float x = (float)((ClientMapData.getInstance().getMapWidth()/(double)width)*mousePositions.x);
-        float y = (float)((ClientMapData.getInstance().getMapHeight()/(double)height)*mousePositions.y);
-        return new Vec2(x,y);
+    public Point2D.Double mouseToMapCoordinates(Point2D.Double mousePositions){
+        
+        double x = ((ClientMapData.getInstance().getMapWidth()/(double)width)*mousePositions.x)/ClientMapData.getInstance().getMapScale();
+        double y = ((ClientMapData.getInstance().getMapHeight()/(double)height)*mousePositions.y)/ClientMapData.getInstance().getMapScale();
+        return new Point2D.Double(x,y);
     }
 
     public void scaleMap(PoseStack poseStack, float scale) {
@@ -69,7 +71,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     }
 
     public void renderCoordinateTooltip(PoseStack poseStack, int mouseX, int mouseY){
-        Vec2 blockCoordinates = ClientMapData.getInstance().mapToBlockCoordinates(mouseToMapCoordinates(new Vec2((float)mouseX,(float)mouseY)));
+        Point2D.Double blockCoordinates = ClientMapData.getInstance().mapToCentreBlockCoordinates(mouseToMapCoordinates(new Point2D.Double((float)mouseX,(float)mouseY)));
         int renderMouseX = mouseX;
         int renderMouseY = mouseY;
         if(renderMouseY < 20){
@@ -95,7 +97,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
         translateMap(mapPoseStack, ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
-        Vec2 playerOnMap = ClientMapData.getInstance().getPlayerPositionOnMap();
+        Point2D.Double playerOnMap = ClientMapData.getInstance().getPlayerPositionOnMap();
         texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), (int)playerOnMap.x, (int)playerOnMap.y);
         renderCoordinateTooltip(poseStack, mouseX, mouseY);
         super.render(poseStack, mouseX, mouseY, partialTick);
