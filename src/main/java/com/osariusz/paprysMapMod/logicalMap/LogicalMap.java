@@ -77,12 +77,9 @@ public class LogicalMap implements Serializable {
 
 
     public Boolean isInside(double x, double y) {
-        if (x >= start.getX() && x <= start.getX() + mapSegmentsX * xStep) {
-            if (y >= start.getZ() && y <= start.getZ() + mapSegmentsY * yStep) {
-                return true;
-            }
-        }
-        return false;
+        int centerX = (int) (start.getX()+getBlockWidth()/2);
+        int centerY = (int) (start.getZ()+getBlockHeight()/2);
+        return Math.abs(x - centerX) <= getBlockWidth() / 2 && Math.abs(y - centerY) <= getBlockHeight() / 2;
     }
 
     public List<List<Boolean>> biomesToWater(List<List<Holder<Biome>>> biomes) {

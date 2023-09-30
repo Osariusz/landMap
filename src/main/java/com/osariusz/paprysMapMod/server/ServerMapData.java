@@ -41,8 +41,8 @@ public class ServerMapData {
     }
 
     public void prepareLogicalMap(ServerLevel level, Vec3 playerPosition){
-        int centreX = (int)((playerPosition.x+xMapRadius)/(2*xMapRadius))*2*xMapRadius;
-        int centreY = (int)((playerPosition.z+yMapRadius)/(2*yMapRadius))*2*yMapRadius;
+        int centreX = (int)(Math.round(playerPosition.x/(2*xMapRadius))*2*xMapRadius);
+        int centreY = (int)(Math.round(playerPosition.z/(2*yMapRadius))*2*yMapRadius);
         logicalMaps.add(new LogicalMap(level,new Vec3(centreX,0,centreY), xMapRadius, yMapRadius, logicalMapWidth, logicalMapHeight));
     }
 
