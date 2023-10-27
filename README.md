@@ -11,7 +11,7 @@ One of the significant advantages of PapyrusMap is its ability to highlight wate
 
 - Server and Client Requirement: PapyrusMap is a mod that is required on both the server and client to ensure seamless synchronization of exploration data and map features across multiplayer environments.
 
-- Biome based map: PapyrusMap's minimap is generated based on the water biomes defined in it's config files. It then looks over a large area by only selecting the positions needed to draw a pixel map.
+- Biome Based Map: PapyrusMap's minimap is generated based on the water biomes defined in it's config files. It then looks over a large area by only selecting the positions needed to draw a pixel map.
 
 - Map Caching: PapyrusMap includes a map caching feature, allowing for the efficient storage of map data for future use. This not only optimizes performance but also enables players to revisit previous exploration data conveniently.
 
