@@ -39,7 +39,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
     public void init() {
         super.init();
         this.font = Minecraft.getInstance().font;
-        this.addRenderableWidget(new Button(10, 10, 20, 20, CommonComponents.GUI_CANCEL, (p_96057_) -> {
+        this.addRenderableWidget(new Button(10, 10, 40, 20, CommonComponents.GUI_CANCEL, (p_96057_) -> {
             this.minecraft.setScreen((Screen) null);
         }));
     }
