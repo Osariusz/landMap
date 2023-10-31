@@ -10,6 +10,8 @@ Optimization 2 (done)
 Changing map quality through configs (DONE)
 Show mouse position coordinates after hovering over the map (DONE)
 Graphical improvements (cancel button)
+Generate maps in the background to not lag the server
+Join several maps together
 Automaticically input tp command into console after left-click
 waypoints
 	coordinates and names
