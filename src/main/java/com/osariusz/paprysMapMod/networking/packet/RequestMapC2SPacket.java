@@ -5,6 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
 
 public class RequestMapC2SPacket {
@@ -26,7 +27,17 @@ public class RequestMapC2SPacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
-            ServerMapData.getInstance().playerMapOpen(player);
+            Thread thread = new Thread(
+                    () -> {
+                        try {
+                            assert player != null;
+                            ServerMapData.getInstance().playerMapOpen(player);
+                        } catch (ExecutionException | InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+            );
+            thread.start();
         });
         return true;
     }
