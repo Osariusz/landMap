@@ -33,19 +33,19 @@ public class ClientMapData {
     @Getter
     private float mapScale = 1.0f;
 
-    public void addxOffset(double x) {
-        setxOffset(getXOffset() + x);
+    public void addXOffset(double x) {
+        setXOffset(getXOffset() + x);
     }
 
-    public void setxOffset(double xOffset) {
+    public void setXOffset(double xOffset) {
         this.xOffset = xOffset;
     }
 
     public void addyOffset(double y) {
-        setyOffset(getYOffset() + y);
+        setYOffset(getYOffset() + y);
     }
 
-    public void setyOffset(double yOffset) {
+    public void setYOffset(double yOffset) {
         this.yOffset = yOffset;
     }
 
