@@ -8,9 +8,9 @@ Opening the map shortcut that can be changed in the options (DONE)
 Server test (done)
 Optimization 2 (done)
 Changing map quality through configs (DONE)
-Show mouse position coordinates after hovering over the map
-Automaticically input tp command into console after left-click
+Show mouse position coordinates after hovering over the map (DONE)
 Graphical improvements (cancel button)
+Automaticically input tp command into console after left-click
 waypoints
 	coordinates and names
 	in-game visibility
