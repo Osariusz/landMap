@@ -1,50 +1,42 @@
 package com.osariusz.paprysMapMod.logicalMap;
 
 import com.osariusz.paprysMapMod.configs.CommonConfig;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Getter
+@Builder
+@ToString
 public class LogicalMap implements Serializable {
 
-    public int getMapSegmentsX() {
-        return mapSegmentsX;
-    }
-
-    public int getMapSegmentsY() {
-        return mapSegmentsY;
-    }
-
-    int mapSegmentsX;
-    int mapSegmentsY;
-
-    Vec3i start;
-    double xStep;
-
-    double yStep;
+    int radiusX, radiusY;
+    int mapSegmentsX, mapSegmentsY;
+    Vec3i center;
     List<List<Boolean>> isWater = new ArrayList<>();
 
     public Vec3i getStart() {
-        return start;
+        return center.offset(-radiusX, 0, -radiusY);
     }
 
-    public double getxStep() {
-        return xStep;
+    public double getXStep() {
+        return (radiusX * 2) / (double) mapSegmentsX;
+    }
+
+    public double getYStep() {
+        return (radiusY * 2) / (double) mapSegmentsY;
     }
 
     public int getWidth() {
@@ -55,20 +47,12 @@ public class LogicalMap implements Serializable {
         return mapSegmentsY;
     }
 
-    public double getBlockWidth(){
-        return mapSegmentsX*xStep;
+    public double getBlockWidth() {
+        return mapSegmentsX * getXStep();
     }
 
-    public double getBlockHeight(){
-        return mapSegmentsY*yStep;
-    }
-
-    public double getyStep() {
-        return yStep;
-    }
-
-    public List<List<Boolean>> getIsWater() {
-        return isWater;
+    public double getBlockHeight() {
+        return mapSegmentsY * getYStep();
     }
 
     public Boolean isWater(int x, int y) {
@@ -77,8 +61,8 @@ public class LogicalMap implements Serializable {
 
 
     public Boolean isInside(double x, double y) {
-        int centerX = (int) (start.getX()+getBlockWidth()/2);
-        int centerY = (int) (start.getZ()+getBlockHeight()/2);
+        int centerX = getCenter().getX();
+        int centerY = getCenter().getZ();
         return Math.abs(x - centerX) <= getBlockWidth() / 2 && Math.abs(y - centerY) <= getBlockHeight() / 2;
     }
 
@@ -108,44 +92,23 @@ public class LogicalMap implements Serializable {
         BiomeManager biomeManager = level.getBiomeManager();
         return Stream.iterate(0, y -> y + 1).limit(mapSegmentsY).map(
                 (y) -> {
-                    int logicalY = (int) (y * yStep + startY);
+                    int logicalY = (int) (y * getYStep() + startY);
                     return biomeManager.getBiome(new BlockPos(logicalX, level.getSeaLevel(), logicalY));
                 });
     }
 
-    public LogicalMap(Level level, Vec3i centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
+    public LogicalMap generateIsWater(Level level) {
         if (level != null) {
-            this.mapSegmentsX = mapSegmentsX;
-            this.mapSegmentsY = mapSegmentsY;
-            xStep = (radiusX * 2) / (double) mapSegmentsX;
-            yStep = (radiusY * 2) / (double) mapSegmentsY;
-
-            start = centre.offset(-radiusX, 0, -radiusY);
-
             List<List<Holder<Biome>>> biomes = new ArrayList<>();
 
             for (int x = 0; x < mapSegmentsX; x++) {
-                int logicalX = (int) (x * xStep + start.getX());
-                biomes.add(getBiomesOnX(level, logicalX, start.getZ(), radiusY).collect(Collectors.toList()));
+                int logicalX = (int) (x * getXStep() + getStart().getX());
+                biomes.add(getBiomesOnX(level, logicalX, getStart().getZ(), radiusY).collect(Collectors.toList()));
             }
-
 
             this.isWater = biomesToWater(biomes);
         }
+        return this;
     }
-
-    public LogicalMap(Level level, Vec3 centre, int radiusX, int radiusY, int mapSegmentsX, int mapSegmentsY) {
-        this(level, new Vec3i(centre.x, centre.y, centre.z), radiusX, radiusY, mapSegmentsX, mapSegmentsY);
-    }
-
-    public LogicalMap(@NotNull List<List<Boolean>> isWater, @NotNull Vec3i start, double xStep, double yStep, int mapSegmentsX, int mapSegmentsY) {
-        this.isWater = isWater;
-        this.start = start;
-        this.xStep = xStep;
-        this.yStep = yStep;
-        this.mapSegmentsY = mapSegmentsY;
-        this.mapSegmentsX = mapSegmentsX;
-    }
-
 
 }

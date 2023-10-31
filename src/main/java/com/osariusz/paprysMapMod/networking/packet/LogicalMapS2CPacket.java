@@ -15,11 +15,10 @@ public class LogicalMapS2CPacket {
 
 
     int xAmount, yAmount;
-    List<List<Boolean>> isWater;
-    Vec3i start;
-    double xStep, yStep;
-
+    int radiusX, radiusY;
     int mapSegmentsX, mapSegmentsY;
+    Vec3i centre;
+    List<List<Boolean>> isWater = new ArrayList<>();
 
     public LogicalMapS2CPacket(LogicalMap logicalMap) {
         xAmount = logicalMap.getIsWater().size();
@@ -28,9 +27,9 @@ public class LogicalMapS2CPacket {
         }
         yAmount = logicalMap.getIsWater().get(0).size();
         this.isWater = logicalMap.getIsWater();
-        this.start = logicalMap.getStart();
-        this.xStep = logicalMap.getxStep();
-        this.yStep = logicalMap.getyStep();
+        this.centre = logicalMap.getCenter();
+        this.radiusX = logicalMap.getRadiusX();
+        this.radiusY = logicalMap.getRadiusY();
         this.mapSegmentsX = logicalMap.getMapSegmentsX();
         this.mapSegmentsY = logicalMap.getMapSegmentsY();
     }
@@ -45,9 +44,9 @@ public class LogicalMapS2CPacket {
                 isWater.get(i).add(buf.readBoolean());
             }
         }
-        start = new Vec3i(buf.readInt(), buf.readInt(), buf.readInt());
-        xStep = buf.readDouble();
-        yStep = buf.readDouble();
+        centre = new Vec3i(buf.readInt(), buf.readInt(), buf.readInt());
+        radiusX = buf.readInt();
+        radiusY = buf.readInt();
         mapSegmentsX = buf.readInt();
         mapSegmentsY = buf.readInt();
     }
@@ -60,11 +59,11 @@ public class LogicalMapS2CPacket {
                 buf.writeBoolean(isWater.get(i).get(j));
             }
         }
-        buf.writeInt(start.getX());
-        buf.writeInt(start.getY());
-        buf.writeInt(start.getZ());
-        buf.writeDouble(xStep);
-        buf.writeDouble(yStep);
+        buf.writeInt(centre.getX());
+        buf.writeInt(centre.getY());
+        buf.writeInt(centre.getZ());
+        buf.writeInt(radiusX);
+        buf.writeInt(radiusY);
         buf.writeInt(mapSegmentsX);
         buf.writeInt(mapSegmentsY);
     }
@@ -72,7 +71,16 @@ public class LogicalMapS2CPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            ClientMapData.getInstance().setLogicalMap(new LogicalMap(isWater, start, xStep, yStep, mapSegmentsX, mapSegmentsY));
+            ClientMapData.getInstance().setLogicalMap(
+                    LogicalMap.builder()
+                            .isWater(isWater)
+                            .center(centre)
+                            .radiusX(radiusX)
+                            .radiusY(radiusY)
+                            .mapSegmentsX(mapSegmentsX)
+                            .mapSegmentsY(mapSegmentsY)
+                    .build()
+            );
         });
         return true;
     }

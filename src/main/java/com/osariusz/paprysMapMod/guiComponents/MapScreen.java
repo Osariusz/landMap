@@ -96,7 +96,7 @@ public class MapScreen extends AbstractContainerScreen<MapMenu> {
         }
         PoseStack mapPoseStack = new PoseStack();
         scaleMap(mapPoseStack, ClientMapData.getInstance().getMapScale());
-        translateMap(mapPoseStack, ClientMapData.getInstance().getxOffset(), ClientMapData.getInstance().getyOffset());
+        translateMap(mapPoseStack, ClientMapData.getInstance().getXOffset(), ClientMapData.getInstance().getYOffset());
         Point2D.Double playerOnMap = ClientMapData.getInstance().getPlayerPositionOnMap();
         texture.render(mapPoseStack, ClientMapData.getInstance().getLogicalMap(), (int)playerOnMap.x, (int)playerOnMap.y);
         renderCoordinateTooltip(poseStack, mouseX, mouseY);

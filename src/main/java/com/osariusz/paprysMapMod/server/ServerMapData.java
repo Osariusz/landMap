@@ -5,6 +5,7 @@ import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
 import com.osariusz.paprysMapMod.menus.MapMenu;
 import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
 import com.osariusz.paprysMapMod.networking.packet.LogicalMapS2CPacket;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,7 +44,15 @@ public class ServerMapData {
     public void prepareLogicalMap(ServerLevel level, Vec3 playerPosition){
         int centreX = (int)(Math.round(playerPosition.x/(2*xMapRadius))*2*xMapRadius);
         int centreY = (int)(Math.round(playerPosition.z/(2*yMapRadius))*2*yMapRadius);
-        logicalMaps.add(new LogicalMap(level,new Vec3(centreX,0,centreY), xMapRadius, yMapRadius, logicalMapWidth, logicalMapHeight));
+        logicalMaps.add(
+            LogicalMap.builder()
+                    .center(new Vec3i(centreX, 0, centreY))
+                    .radiusX(xMapRadius)
+                    .radiusY(yMapRadius)
+                    .mapSegmentsX(logicalMapWidth)
+                    .mapSegmentsY(logicalMapHeight)
+                    .build().generateIsWater(level)
+        );
     }
 
     public void playerMapOpen(ServerPlayer player) {
