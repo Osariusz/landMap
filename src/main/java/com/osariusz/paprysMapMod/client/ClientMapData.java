@@ -105,9 +105,9 @@ public class ClientMapData {
         int blockY = blockCoordinates.y;
         blockX = (int) ((double) blockX * getLogicalMap().getXStep());
         blockY = (int) ((double) blockY * getLogicalMap().getYStep());
-        Vec3i start = INSTANCE.getLogicalMap().getStart();
-        blockX += start.getX() + clientLogicalMap.getBlockWidth() / 2;
-        blockY += start.getZ() + clientLogicalMap.getBlockHeight() / 2;
+        Vec3i center = INSTANCE.getLogicalMap().getCenter();
+        blockX += center.getX();
+        blockY += center.getZ();
         blockX += Math.signum(blockCoordinates.x) * ClientMapData.getInstance().getLogicalMap().getXStep() / 2;
         blockY += Math.signum(blockCoordinates.y) * ClientMapData.getInstance().getLogicalMap().getYStep() / 2;
         return new Point2D.Double(blockX, blockY);
