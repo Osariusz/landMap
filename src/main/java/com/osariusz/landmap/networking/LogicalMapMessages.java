@@ -1,9 +1,9 @@
-package com.osariusz.paprysMapMod.networking;
+package com.osariusz.landmap.networking;
 
 
-import com.osariusz.paprysMapMod.PapyrusMapMod;
-import com.osariusz.paprysMapMod.networking.packet.LogicalMapS2CPacket;
-import com.osariusz.paprysMapMod.networking.packet.RequestMapC2SPacket;
+import com.osariusz.landmap.LandMapMod;
+import com.osariusz.landmap.networking.packet.LogicalMapS2CPacket;
+import com.osariusz.landmap.networking.packet.RequestMapC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -23,7 +23,7 @@ public class LogicalMapMessages {
 
     public static void register() {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(PapyrusMapMod.MODID, "mesages"))
+                .named(new ResourceLocation(LandMapMod.MODID, "mesages"))
                 .networkProtocolVersion(() -> "1.0")
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)

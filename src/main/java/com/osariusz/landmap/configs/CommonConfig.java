@@ -1,4 +1,4 @@
-package com.osariusz.paprysMapMod.configs;
+package com.osariusz.landmap.configs;
 
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.ForgeConfigSpec;

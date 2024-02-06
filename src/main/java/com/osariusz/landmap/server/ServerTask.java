@@ -1,9 +1,7 @@
-package com.osariusz.paprysMapMod.server;
+package com.osariusz.landmap.server;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import org.openjdk.nashorn.internal.objects.annotations.Constructor;
 
 import java.util.UUID;
 

@@ -1,11 +1,11 @@
-package com.osariusz.paprysMapMod.guiComponents;
+package com.osariusz.landmap.guiComponents;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
-import com.osariusz.paprysMapMod.configs.ClientConfig;
-import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
+import com.osariusz.landmap.configs.ClientConfig;
+import com.osariusz.landmap.logicalMap.LogicalMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

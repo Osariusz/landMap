@@ -1,8 +1,8 @@
-package com.osariusz.paprysMapMod.networking.packet;
+package com.osariusz.landmap.networking.packet;
 
 
-import com.osariusz.paprysMapMod.client.ClientMapData;
-import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
+import com.osariusz.landmap.client.ClientMapData;
+import com.osariusz.landmap.logicalMap.LogicalMap;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;;
 import net.minecraftforge.network.NetworkEvent;

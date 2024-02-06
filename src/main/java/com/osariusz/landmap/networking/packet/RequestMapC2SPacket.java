@@ -1,6 +1,6 @@
-package com.osariusz.paprysMapMod.networking.packet;
+package com.osariusz.landmap.networking.packet;
 
-import com.osariusz.paprysMapMod.server.ServerMapData;
+import com.osariusz.landmap.server.ServerMapData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;

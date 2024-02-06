@@ -1,6 +1,6 @@
-package com.osariusz.paprysMapMod.logicalMap;
+package com.osariusz.landmap.logicalMap;
 
-import com.osariusz.paprysMapMod.configs.CommonConfig;
+import com.osariusz.landmap.configs.CommonConfig;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

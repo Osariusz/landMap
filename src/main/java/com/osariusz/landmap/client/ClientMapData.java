@@ -1,6 +1,6 @@
-package com.osariusz.paprysMapMod.client;
+package com.osariusz.landmap.client;
 
-import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
+import com.osariusz.landmap.logicalMap.LogicalMap;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Vec3i;

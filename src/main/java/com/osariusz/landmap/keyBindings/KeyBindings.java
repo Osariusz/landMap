@@ -1,4 +1,4 @@
-package com.osariusz.paprysMapMod.keyBindings;
+package com.osariusz.landmap.keyBindings;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;

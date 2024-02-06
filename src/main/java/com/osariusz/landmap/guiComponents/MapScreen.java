@@ -1,10 +1,10 @@
-package com.osariusz.paprysMapMod.guiComponents;
+package com.osariusz.landmap.guiComponents;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.osariusz.paprysMapMod.client.ClientMapData;
-import com.osariusz.paprysMapMod.keyBindings.KeyBindings;
-import com.osariusz.paprysMapMod.menus.MapMenu;
+import com.osariusz.landmap.client.ClientMapData;
+import com.osariusz.landmap.keyBindings.KeyBindings;
+import com.osariusz.landmap.menus.MapMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;

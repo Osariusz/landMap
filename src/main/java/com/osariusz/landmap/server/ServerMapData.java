@@ -1,11 +1,10 @@
-package com.osariusz.paprysMapMod.server;
+package com.osariusz.landmap.server;
 
-import com.osariusz.paprysMapMod.configs.CommonConfig;
-import com.osariusz.paprysMapMod.logicalMap.LogicalMap;
-import com.osariusz.paprysMapMod.menus.MapMenu;
-import com.osariusz.paprysMapMod.networking.LogicalMapMessages;
-import com.osariusz.paprysMapMod.networking.packet.LogicalMapS2CPacket;
-import net.minecraft.client.Minecraft;
+import com.osariusz.landmap.configs.CommonConfig;
+import com.osariusz.landmap.logicalMap.LogicalMap;
+import com.osariusz.landmap.menus.MapMenu;
+import com.osariusz.landmap.networking.LogicalMapMessages;
+import com.osariusz.landmap.networking.packet.LogicalMapS2CPacket;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
