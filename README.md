@@ -1,5 +1,5 @@
 # Land Map
-LandMap is a groundbreaking Minecraft minimap mod that offers a unique and unparalleled mapping experience. Unlike most other minimap mods, LandMap goes beyond merely displaying the terrain you have explored. Its primary objective is to provide players with a comprehensive map that showcases not only the known terrain but also vast unexplored areas, revealing whether they consist of land or water.
+LandMap is a Minecraft minimap mod that offers a unique mapping experience. Unlike most other minimap mods, LandMap goes beyond merely displaying the terrain you have explored. Its primary objective is to provide players with a comprehensive map that showcases not only the known terrain but also vast unexplored areas, revealing whether they consist of land or water.
 
 Imagine having access to a minimap that grants you a bird's-eye view of your surroundings, allowing you to plan your adventures with confidence. LandMap empowers players by offering crucial information about uncharted territories, enabling you to make informed decisions about where to venture next.
 
